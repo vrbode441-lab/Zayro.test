@@ -1,320 +1,695 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ZayroX_Anime</title>
-<style>
-body {margin:0; font-family:'Segoe UI',sans-serif; background:linear-gradient(135deg,#111,#1a001a); color:#fff; padding:20px;}
-h1{text-align:center; color:#b366ff; font-size:32px; margin-bottom:20px;}
-.container{max-width:1000px; margin:auto;}
-.cards{display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:20px;}
-.card{background:#1a001a; border-radius:16px; padding:15px; box-shadow:0 0 20px rgba(0,0,0,0.4); cursor:pointer; transition:0.3s; position:relative;}
-.card img{width:100%; border-radius:12px;}
-.card h2{margin:10px 0; font-size:22px; color:#b366ff;}
-.card .visitors{position:absolute; top:10px; left:10px; font-size:14px; background:rgba(0,0,0,0.6); padding:5px 10px; border-radius:10px;}
-#quizContainer{display:none; margin-top:20px;}
-.progress{height:12px; background:#333; border-radius:8px; margin-bottom:20px; overflow:hidden;}
-.progress-bar{height:100%; width:0%; background:#b366ff; transition:0.5s;}
-.question{margin-bottom:20px;}
-label{display:block; margin-bottom:10px; font-size:18px;}
-select{width:100%; padding:10px; border-radius:10px; font-size:16px;}
-.btn{background:#b366ff; color:#fff; padding:12px 20px; border:none; border-radius:12px; font-size:18px; cursor:pointer; margin-top:15px;}
-.btn:hover{background:#9933ff;}
-#resultBox{display:none; background:#000; padding:20px; border-radius:16px; margin-top:20px;}
-.title{color:#b366ff; font-size:20px; margin-bottom:8px;}
-.watermark{position:fixed; bottom:10px; right:10px; font-size:12px; color:rgba(255,255,255,0.3); user-select:none;}
-#backBtn{background:#333; color:#fff; padding:8px 15px; margin-bottom:15px; border-radius:10px; font-size:16px; cursor:pointer;}
-@media(max-width:480px){h1{font-size:26px;}}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ZayroX_Anime</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* الأساسيات */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            --neon-blue: #00f3ff;
+            --neon-purple: #b07fff;
+            --dark-bg: #0a0a14;
+            --darker-bg: #050510;
+            --card-bg: #151525;
+            --text-color: #e0e0ff;
+        }
+
+        body {
+            background-color: var(--dark-bg);
+            color: var(--text-color);
+            min-height: 100vh;
+            padding: 20px;
+            background: linear-gradient(135deg, var(--darker-bg) 0%, var(--dark-bg) 100%);
+            background-attachment: fixed;
+        }
+
+        /* الصفحة الرئيسية */
+        .home-page {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 50px;
+            padding: 30px 20px;
+            position: relative;
+        }
+
+        .title {
+            color: var(--neon-blue);
+            font-size: 3.5rem;
+            margin-bottom: 15px;
+            text-shadow: 0 0 15px var(--neon-blue), 0 0 30px var(--neon-blue);
+            font-weight: 900;
+            letter-spacing: 2px;
+            position: relative;
+            display: inline-block;
+        }
+
+        .title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 10%;
+            width: 80%;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, var(--neon-blue), transparent);
+        }
+
+        .subtitle {
+            color: #a0a0ff;
+            font-size: 1.4rem;
+            margin-bottom: 30px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.6;
+        }
+
+        .anime-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 30px;
+            margin-bottom: 60px;
+        }
+
+        .anime-card {
+            background: linear-gradient(145deg, var(--card-bg), #1a1a2e);
+            border-radius: 20px;
+            padding: 25px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            border: 2px solid transparent;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .anime-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--neon-blue), var(--neon-purple));
+        }
+
+        .anime-card:hover {
+            transform: translateY(-12px) scale(1.03);
+            border-color: var(--neon-blue);
+            box-shadow: 0 15px 30px rgba(0, 243, 255, 0.3);
+        }
+
+        .anime-card h3 {
+            color: var(--neon-blue);
+            margin-bottom: 15px;
+            font-size: 1.6rem;
+            text-shadow: 0 0 10px rgba(0, 243, 255, 0.5);
+            font-weight: 700;
+        }
+
+        .anime-img {
+            width: 100%;
+            height: 220px;
+            background: linear-gradient(145deg, #1a1a2e, #252545);
+            border-radius: 12px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #aaffff;
+            font-size: 1.8rem;
+            font-weight: bold;
+            border: 2px solid #252545;
+            transition: all 0.3s ease;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .anime-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .anime-card:hover .anime-img {
+            border-color: var(--neon-blue);
+            transform: scale(1.05);
+        }
+
+        .anime-card:hover .anime-img img {
+            transform: scale(1.15);
+        }
+
+        .anime-info {
+            margin-top: 15px;
+            color: #b0b0ff;
+            font-size: 0.9rem;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .watermark {
+            text-align: center;
+            color: rgba(160, 160, 255, 0.4);
+            margin-top: 80px;
+            font-size: 1.1rem;
+            padding: 25px;
+            border-top: 1px solid #252545;
+            position: relative;
+        }
+
+        .watermark::before {
+            content: "✦";
+            position: absolute;
+            top: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--dark-bg);
+            padding: 0 15px;
+            color: var(--neon-blue);
+        }
+
+        /* صندوق الاختبار */
+        .quiz-container {
+            max-width: 900px;
+            margin: 0 auto;
+            display: none;
+        }
+
+        .quiz-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: var(--card-bg);
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            border: 1px solid #252545;
+        }
+
+        .quiz-title {
+            color: var(--neon-blue);
+            font-size: 1.8rem;
+            text-shadow: 0 0 10px rgba(0, 243, 255, 0.5);
+        }
+
+        .progress-container {
+            margin-bottom: 40px;
+            background: var(--card-bg);
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            border: 1px solid #252545;
+        }
+
+        .progress-bar {
+            height: 14px;
+            background-color: #252545;
+            border-radius: 7px;
+            overflow: hidden;
+            margin-bottom: 15px;
+            position: relative;
+        }
+
+        .progress {
+            height: 100%;
+            background: linear-gradient(90deg, var(--neon-blue), var(--neon-purple));
+            width: 0%;
+            transition: width 0.5s ease;
+            border-radius: 7px;
+            position: relative;
+        }
+
+        .progress::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            animation: shimmer 2s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        .progress-text {
+            text-align: center;
+            color: var(--neon-blue);
+            font-size: 1.2rem;
+            font-weight: bold;
+            text-shadow: 0 0 5px rgba(0, 243, 255, 0.5);
+        }
+
+        .question-box {
+            background: linear-gradient(145deg, var(--card-bg), #1a1a2e);
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+            border: 1px solid #252545;
+            position: relative;
+        }
+
+        .question-box::before {
+            content: '?';
+            position: absolute;
+            top: -20px;
+            right: 30px;
+            background: var(--neon-blue);
+            color: var(--dark-bg);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: bold;
+            box-shadow: 0 0 15px var(--neon-blue);
+        }
+
+        .question {
+            font-size: 1.7rem;
+            margin-bottom: 35px;
+            text-align: center;
+            line-height: 1.6;
+            color: #ffffff;
+            text-shadow: 0 0 5px rgba(255, 255, 255, 0.3);
+            font-weight: 600;
+        }
+
+        .options-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .option {
+            background: #252545;
+            border-radius: 12px;
+            padding: 22px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+            font-size: 1.2rem;
+            min-height: 90px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #ccffff;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .option::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, transparent, rgba(0, 243, 255, 0.1), transparent);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .option:hover {
+            background: #2d2d65;
+            transform: translateY(-5px);
+            border-color: var(--neon-blue);
+            box-shadow: 0 8px 20px rgba(0, 243, 255, 0.2);
+        }
+
+        .option:hover::before {
+            opacity: 1;
+        }
+
+        .option.selected {
+            background: linear-gradient(145deg, #0066ff, #6600ff);
+            color: white;
+            border-color: var(--neon-blue);
+            transform: scale(1.03);
+            box-shadow: 0 8px 25px rgba(0, 243, 255, 0.4);
+        }
+
+        .nav-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 40px;
+        }
+
+        .btn {
+            background: linear-gradient(145deg, var(--neon-blue), #0066ff);
+            color: var(--dark-bg);
+            border: none;
+            padding: 16px 35px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1.2rem;
+            font-weight: bold;
+            text-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 5px 15px rgba(0, 243, 255, 0.3);
+        }
+
+        .btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 170, 255, 0.5);
+            background: linear-gradient(145deg, #00ffff, #0088ff);
+        }
+
+        .btn:disabled {
+            background: #252545;
+            color: #666;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .btn-back {
+            background: linear-gradient(145deg, #252545, #2d2d65);
+            color: var(--text-color);
+        }
+
+        .btn-back:hover {
+            background: linear-gradient(145deg, #2d2d65, #353575);
+        }
+
+        /* صندوق النتائج */
+        .result-container {
+            max-width: 700px;
+            margin: 0 auto;
+            text-align: center;
+            display: none;
+        }
+
+        .result-box {
+            background: linear-gradient(145deg, var(--card-bg), #1a1a2e);
+            border-radius: 25px;
+            padding: 60px 40px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+            border: 2px solid var(--neon-blue);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .result-box::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(0,243,255,0.1) 0%, transparent 70%);
+            animation: pulse 4s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(0.8); opacity: 0.5; }
+            50% { transform: scale(1.2); opacity: 0.8; }
+            100% { transform: scale(0.8); opacity: 0.5; }
+        }
+
+        .result-title {
+            color: var(--neon-blue);
+            font-size: 2.8rem;
+            margin-bottom: 40px;
+            text-shadow: 0 0 15px rgba(0, 243, 255, 0.5);
+            position: relative;
+        }
+
+        .score {
+            font-size: 5rem;
+            margin-bottom: 30px;
+            background: linear-gradient(145deg, var(--neon-blue), var(--neon-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: bold;
+            text-shadow: 0 0 10px rgba(0, 243, 255, 0.3);
+            position: relative;
+        }
+
+        .rating {
+            font-size: 2.5rem;
+            margin-bottom: 50px;
+            color: var(--neon-blue);
+            font-weight: bold;
+            text-shadow: 0 0 10px rgba(0, 243, 255, 0.5);
+            position: relative;
+        }
+
+        .result-message {
+            font-size: 1.3rem;
+            margin-bottom: 40px;
+            color: #b0b0ff;
+            line-height: 1.6;
+            position: relative;
+        }
+
+        /* التجاوب مع الشاشات الصغيرة */
+        @media (max-width: 1100px) {
+            .anime-grid {
+                grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            }
+        }
+
+        @media (max-width: 768px) {
+            .anime-grid {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+                gap: 20px;
+            }
+            
+            .options-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .question {
+                font-size: 1.4rem;
+            }
+            
+            .title {
+                font-size: 2.5rem;
+            }
+            
+            .option {
+                min-height: 80px;
+                font-size: 1.1rem;
+                padding: 18px;
+            }
+
+            .quiz-header {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .nav-buttons {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .btn {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .title {
+                font-size: 2rem;
+            }
+            
+            .anime-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .question-box {
+                padding: 25px;
+            }
+            
+            .btn {
+                padding: 14px 25px;
+                font-size: 1.1rem;
+            }
+
+            .result-box {
+                padding: 40px 25px;
+            }
+
+            .score {
+                font-size: 4rem;
+            }
+
+            .rating {
+                font-size: 2rem;
+            }
+        }
+
+        /* تأثيرات إضافية */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .particle {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            background: var(--neon-blue);
+            border-radius: 50%;
+            opacity: 0.5;
+            animation: float 15s infinite linear;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(100vh) translateX(0);
+            }
+            100% {
+                transform: translateY(-100vh) translateX(100px);
+            }
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 50px;
+            color: var(--neon-blue);
+            font-size: 1.5rem;
+        }
+
+        .loading-spinner {
+            border: 5px solid rgba(0, 243, 255, 0.3);
+            border-top: 5px solid var(--neon-blue);
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
 </head>
 <body>
-<h1>ZayroX_Anime</h1>
-<div class="container">
-<div class="cards" id="animeCards"></div>
-<div id="quizContainer">
-<button id="backBtn" onclick="backToHome()">العودة للصفحة الرئيسية</button>
-<div class="progress"><div class="progress-bar" id="progressBar"></div></div>
-<div id="quiz"></div>
-<button class="btn" id="nextBtn" onclick="next()">التالي</button>
-<div id="resultBox"></div>
-</div>
-</div>
-<div class="watermark">المطور: عبدالرحمن أنور</div>
+    <!-- جسيمات الخلفية -->
+    <div class="particles" id="particles"></div>
 
-<script>
-// بيانات الأنميات
-const animes = [
-  {name:"Naruto", img:"https://upload.wikimedia.org/wikipedia/en/9/94/NarutoCoverTankobon1.jpg"},
-  {name:"Attack on Titan", img:"https://upload.wikimedia.org/wikipedia/en/0/0d/Shingeki_no_Kyojin_manga_volume_1.jpg"},
-  {name:"Demon Slayer", img:"https://upload.wikimedia.org/wikipedia/en/9/9f/Kimetsu_no_Yaiba_vol01.jpg"},
-  {name:"Jujutsu Kaisen", img:"https://upload.wikimedia.org/wikipedia/en/0/0e/Jujutsu_Kaisen_Volume_1.jpg"},
-  {name:"Bleach", img:"https://upload.wikimedia.org/wikipedia/en/3/3e/Bleach_cover.jpg"},
-  {name:"Hunter x Hunter", img:"https://upload.wikimedia.org/wikipedia/en/6/61/Hunter_X_Hunter_cover.jpg"},
-  {name:"Solo Leveling", img:"https://upload.wikimedia.org/wikipedia/en/6/66/Solo_Leveling.jpg"},
-  {name:"My Hero Academia", img:"https://upload.wikimedia.org/wikipedia/en/5/5a/Boku_no_Hero_Academia_volume_1.jpg"},
-  {name:"Dragon Ball", img:"https://upload.wikimedia.org/wikipedia/en/f/f4/Dragon_Ball_volume_1_cover.jpg"},
-  {name:"Tokyo Ghoul", img:"https://upload.wikimedia.org/wikipedia/en/1/1e/Tokyo_Ghoul_vol_1.jpg"},
-  {name:"Black Clover", img:"https://upload.wikimedia.org/wikipedia/en/9/9b/Black_Clover_volume_1.jpg"},
-  {name:"Mixed Anime Quiz", img:"https://upload.wikimedia.org/wikipedia/en/e/e0/Anime_icon.jpg"}
-];
+    <!-- الصفحة الرئيسية -->
+    <div class="home-page" id="homePage">
+        <div class="header">
+            <h1 class="title">ZayroX_Anime</h1>
+            <p class="subtitle">اختبارات تفاعلية احترافية لقياس معرفتك بعالم الأنمي</p>
+        </div>
+        
+        <div class="anime-grid" id="animeGrid">
+            <!-- سيتم ملء البطاقات ديناميكيًا -->
+        </div>
+        
+        <div class="watermark">
+            المطور: عبدالرحمن أنور
+        </div>
+    </div>
 
-const visitorCounts = {};
-const animeCards = document.getElementById('animeCards');
-animes.forEach(anime=>{
-  if(!localStorage.getItem(anime.name)) localStorage.setItem(anime.name,0);
-  visitorCounts[anime.name] = parseInt(localStorage.getItem(anime.name));
-  const card = document.createElement('div');
-  card.className='card';
-  card.innerHTML=`<div class="visitors">${visitorCounts[anime.name]} زائر</div><img src="${anime.img}"><h2>${anime.name}</h2>`;
-  card.onclick=()=>selectLevel(anime.name);
-  animeCards.appendChild(card);
-});
+    <!-- شاشة التحميل -->
+    <div class="loading" id="loading">
+        <div class="loading-spinner"></div>
+        <p>جاري تحميل الاختبار...</p>
+    </div>
+    
+    <!-- صندوق الاختبار -->
+    <div class="quiz-container" id="quizContainer">
+        <div class="quiz-header">
+            <h2 class="quiz-title" id="quizTitle">اختبار الأنمي</h2>
+            <div class="anime-info" id="quizAnimeInfo"></div>
+        </div>
 
-// أسئلة المستويات السهلة والمتوسطة لكل الأنميات
-const questionsData = {
-  "Naruto":{
-    "سهل":[
-      {q:"من هو بطل ناروتو؟", opts:["ناروتو","ساكورا","ساسكي","كاكاشي"], correct:0},
-      {q:"اسم والد ناروتو؟", opts:["ميناتو","هزومي","توبي","هيرو"], correct:0},
-      {q:"أقوى تقنية لناروتو؟", opts:["Rasengan (راسينغان)","Chidori","Kamehameha","Bankai"], correct:0},
-      {q:"اسم صديق طفولة ناروتو؟", opts:["ساسكي","كوبا","كيتو","هيتا"], correct:0},
-      {q:"أي قرية تنتمي لكاكاشي؟", opts:["الورق","الرمل","الرعد","الثلج"], correct:0},
-      {q:"من هو قائد فريق 7؟", opts:["كاكاشي","جيرايا","ناروتو","هيتا"], correct:0},
-      {q:"ما اسم زوجة ناروتو؟", opts:["ساكورا","هيناتا","ميساكي","ميسو"], correct:1},
-      {q:"كم ذيل يمتلك كيوبي؟", opts:["9","8","7","6"], correct:0},
-      {q:"اسم أخ ساسكي؟", opts:["Itachi","Kisame","Tobi","Madara"], correct:0},
-      {q:"من قاتل أوروتشيمارو؟", opts:["ناروتو","ساسكي","جيرايا","كابوتو"], correct:1}
-    ],
-    "متوسط":[
-      {q:"من هو معلم ناروتو؟", opts:["كاكاشي","جيرايا","هيرو","سابو"], correct:1},
-      {q:"أقوى شخصية في ناروتو شيبودن؟", opts:["ناروتو","ساسكي","مدارا","هيرو"], correct:2},
-      {q:"ما اسم تقنية ساسكي الشهيرة؟", opts:["Sharingan (شانغن)","Rasengan","Kamehameha","Bankai"], correct:0},
-      {q:"من قاتل هيروزن نينجا من قرية الرمل؟", opts:["Gaara","Kankuro","Temari","Haku"], correct:0},
-      {q:"كم جزء للأنمي ناروتو؟", opts:["1","2","3","4"], correct:2},
-      {q:"من هو أقوى هوكاجي؟", opts:["ميناتو","ناروتو","تسونا","كاكاشي"], correct:1},
-      {q:"من هو زعيم الأكاتسوكي؟", opts:["Itachi","Pain","Kisame","Tobi"], correct:3},
-      {q:"تقنية ناروتو النهائية؟", opts:["Sage Mode","Rasengan","Chidori","Bankai"], correct:0},
-      {q:"من قاتل ناغاتو؟", opts:["ناروتو","جيرايا","كاكاشي","ساسكي"], correct:0},
-      {q:"اسم أخ ساسكي؟", opts:["Itachi","Kisame","Tobi","Madara"], correct:0}
-    ]
-  }
-  // ملاحظة: باقي الأنميات ستتم إضافتها بنفس البنية في الجزء الثاني
-};
+        <div class="progress-container">
+            <div class="progress-bar">
+                <div class="progress" id="progressBar"></div>
+            </div>
+            <div class="progress-text" id="progressText">السؤال 1 من 10</div>
+        </div>
+        
+        <div class="question-box">
+            <div class="question" id="questionText"></div>
+            <div class="options-grid" id="optionsGrid"></div>
+        </div>
+        
+        <div class="nav-buttons">
+            <button class="btn btn-back" id="backButton">
+                <i class="fas fa-arrow-right"></i> العودة للرئيسية
+            </button>
+            <button class="btn" id="nextButton" disabled>
+                التالي <i class="fas fa-arrow-left"></i>
+            </button>
+        </div>
+    </div>
+    
+    <!-- صندوق النتائج -->
+    <div class="result-container" id="resultContainer">
+        <div class="result-box">
+            <h2 class="result-title">نتيجة الاختبار</h2>
+            <div class="score" id="scoreText">0/10</div>
+            <div class="rating" id="ratingText">مبتدئ</div>
+            <p class="result-message" id="resultMessage"></p>
+            <button class="btn" id="restartButton">
+                <i class="fas fa-redo"></i> العودة للرئيسية
+            </button>
+        </div>
+    </div>
 
-// المتغيرات العامة
-let currentAnime="", currentLevel="", current=0, rawScore=0, quizQuestions=[];
-
-function selectLevel(animeName){
-  currentAnime=animeName;
-  visitorCounts[animeName]++;
-  localStorage.setItem(animeName,visitorCounts[animeName]);
-  animeCards.style.display='none';
-  document.getElementById('quizContainer').style.display='block';
-  document.getElementById('quiz').innerHTML=`<h2 style="text-align:center;margin-bottom:15px;">اختر المستوى لـ ${animeName}</h2>
-  <button class="btn" onclick="startQuiz('سهل')">سهل</button>
-  <button class="btn" onclick="startQuiz('متوسط')">متوسط</button>
-  <button class="btn" onclick="startQuiz('صعب')">صعب</button>`;
-  document.getElementById('nextBtn').style.display='none';
-}
-
-function startQuiz(level){
-  currentLevel=level;
-  current=0;
-  rawScore=0;
-  quizQuestions=(questionsData[currentAnime] && questionsData[currentAnime][currentLevel])?questionsData[currentAnime][currentLevel]:[];
-  document.getElementById('nextBtn').style.display='inline-block';
-  loadQuestion();
-}
-
-function loadQuestion(){
-  const q=quizQuestions[current];
-  if(!q){
-    document.getElementById('quiz').innerHTML="<p style='text-align:center;'>لا توجد أسئلة حالياً.</p>";
-    document.getElementById('nextBtn').style.display='none';
-    return;
-  }
-  document.getElementById('quiz').innerHTML=`<div class="question"><label>${current+1}. ${q.q}</label>
-  <select id="answer">${q.opts.map((opt,i)=>`<option value="${i}">${opt}</option>`).join('')}</select></div>`;
-  document.getElementById('progressBar').style.width=((current)/quizQuestions.length*100)+"%";
-  document.getElementById('nextBtn').innerText=current===quizQuestions.length-1?"إظهار النتيجة":"التالي";
-}
-
-function next(){
-  const q=quizQuestions[current];
-  if(q){
-    const ans=Number(document.getElementById("answer").value);
-    if(ans===q.correct) rawScore++;
-  }
-  current++;
-  if(current<quizQuestions.length) loadQuestion();
-  else showResult();
-}
-
-function showResult(){
-  const iq=Math.round((rawScore/quizQuestions.length)*140);
-  const result=document.getElementById('resultBox');
-  result.style.display="block";
-  result.innerHTML=`<div class="title">IQ: ${iq}</div>
-  <div class="title">درجة الاختبار: ${rawScore} من ${quizQuestions.length}</div>`;
-  document.getElementById('nextBtn').style.display='none';
-}
-
-function backToHome(){
-  document.getElementById('quizContainer').style.display='none';
-  animeCards.style.display='grid';
-  animeCards.innerHTML="";
-  animes.forEach(anime=>{
-    const card = document.createElement('div');
-    card.className='card';
-    visitorCounts[anime.name]=parseInt(localStorage.getItem(anime.name));
-    card.innerHTML=`<div class="visitors">${visitorCounts[anime.name]} زائر</div><img src="${anime.img}"><h2>${anime.name}</h2>`;
-    card.onclick=()=>selectLevel(anime.name);
-    animeCards.appendChild(card);
-  });
-  document.getElementById('resultBox').style.display='none';
-}
-</script>
-</body>
-</html>
-
-<script>
-// ------------------------- الأسئلة للمستوى الصعب -------------------------
-questionsData["Naruto"]["صعب"]=[
-  {q:"ما هو اسم تقنية ناروتو النهائية باللغة الأصلية؟", opts:["Rasengan (راسينغان)","Chidori","Kamehameha","Bankai"], correct:0},
-  {q:"ما اسم والدة ناروتو؟", opts:["Kushina","Hinata","Mikasa","Sakura"], correct:0},
-  {q:"من قاتل أوروتشيمارو في النهاية؟", opts:["ساسكي","ناروتو","كاكاشي","جيرايا"], correct:0},
-  {q:"ما اسم البيجو ذو 9 ذيول بالإنجليزية؟", opts:["Kurama","Shukaku","Matatabi","Gyuki"], correct:0},
-  {q:"ما هو اسم فريق ساسكي بعد خروجه من القرية؟", opts:["Team Hebi","Team 7","Akatsuki","Team 10"], correct:0},
-  {q:"ما اسم تقنية ساسكي النهائية بالإنجليزية؟", opts:["Amaterasu","Rasengan","Kamehameha","Bankai"], correct:0},
-  {q:"من هو قائد الأكاتسوكي الحقيقي؟", opts:["Pain","Itachi","Kisame","Tobi"], correct:3},
-  {q:"ما اسم والدة ساسكي؟", opts:["Mikoto","Kushina","Sakura","Hinata"], correct:0},
-  {q:"ما هي أطول معركة لناروتو في الأنمي؟", opts:["ناروتو ضد ساسكي","ناروتو ضد كاكاشي","ناروتو ضد أوروتشيمارو","ناروتو ضد مدارا"], correct:3},
-  {q:"من هو أقوى هوكاجي على الإطلاق؟", opts:["هيرا","ميناتو","كاكاشي","ناروتو"], correct:3}
-];
-
-// إضافة الأنميات الأخرى بنفس البنية (سهل، متوسط، صعب)
-questionsData["Attack on Titan"]={
-  "سهل":[
-    {q:"من بطل القصة؟", opts:["إرين","ليفي","ميكاسا","أرمين"], correct:0},
-    {q:"ما اسم الصديق الأقرب لإرين؟", opts:["ميكاسا","ليفي","أرمين","هانجي"], correct:2},
-    {q:"من هو القائد الأعلى للجيش؟", opts:["ليفي","هانجي","إرن","أودين"], correct:1},
-    {q:"أعداء البشر الرئيسيين؟", opts:["العمالقة","الزومبي","السحرة","الآليين"], correct:0},
-    {q:"من أقوى الجنود في الفرقة الاستطلاعية؟", opts:["ليفي","إرين","أرمين","ميكاسا"], correct:0},
-    {q:"اسم الفيلسوف الذي كشف سر العمالقة؟", opts:["زايك","إيروين","هانجي","ليفي"], correct:0},
-    {q:"ما نوع العمالقة الذي يسيطر عليه إرين؟", opts:["Attack Titan","Colossal Titan","Armored Titan","Beast Titan"], correct:0},
-    {q:"ما اسم القرية التي ينتمي لها أرين؟", opts:["Shiganshina","Trost","Wall Rose","Wall Sina"], correct:0},
-    {q:"من هو عم إرين؟", opts:["Grisha","Zeke","Levi","Erwin"], correct:0},
-    {q:"ما اسم شخصية المحققة المهووسة بالعمالقة؟", opts:["Hanji","Levi","Mikasa","Armin"], correct:0}
-  ],
-  "متوسط":[
-    {q:"من قاتل راينر؟", opts:["إرين","ليفي","ميكاسا","أرمين"], correct:1},
-    {q:"أقوى titan في السلسلة؟", opts:["Founding Titan","Colossal Titan","Beast Titan","Armored Titan"], correct:0},
-    {q:"ما اسم والدة ميكاسا؟", opts:["Kiyomi","Carla","Sasha","Hanna"], correct:1},
-    {q:"ما اسم قائد الفرقة الاستطلاعية؟", opts:["Erwin","Levi","Hange","Eren"], correct:0},
-    {q:"من هو قاتل بيرتولت؟", opts:["ليفي","ميكاسا","إرين","هانجي"], correct:0},
-    {q:"اسم العدو الذي يتحكم بالعقل؟", opts:["Zeke","Armin","Eren","Reiner"], correct:0},
-    {q:"أقوى معركة لليفي؟", opts:["ضد الوحشية","ضد Beast Titan","ضد Eren","ضد Reiner"], correct:1},
-    {q:"من الذي كشف سر الجدران؟", opts:["هانجي","إيروين","ليفي","إرين"], correct:1},
-    {q:"ما اسم Titan الذي يحمي إرين؟", opts:["Attack Titan","Colossal Titan","Armored Titan","Founding Titan"], correct:0},
-    {q:"من هو المخترع الحقيقي للأسلحة؟", opts:["Hanji","Levi","Erwin","Zeke"], correct:0}
-  ],
-  "صعب":[
-    {q:"ما اسم والدة إرين؟", opts:["Carla","Mina","Mikasa","Kiyomi"], correct:0},
-    {q:"من هو القائد السابق للفرقة الاستطلاعية؟", opts:["Erwin","Levi","Hanji","Zeke"], correct:0},
-    {q:"من الذي اكتشف سر الجدران؟", opts:["Erwin","Hanji","Levi","Eren"], correct:0},
-    {q:"ما اسم Titan الذي يملكه Zeke؟", opts:["Beast Titan","Attack Titan","Founding Titan","Armored Titan"], correct:0},
-    {q:"ما اسم Titan الذي يملكه Reiner؟", opts:["Armored Titan","Colossal Titan","Attack Titan","Beast Titan"], correct:0},
-    {q:"من قاتل Titan Colossal؟", opts:["ليفي","إرين","هانجي","ميكاسا"], correct:0},
-    {q:"ما اسم تقنية الإرين النهائية؟", opts:["Founding Titan","Attack Titan","Colossal Titan","Armored Titan"], correct:0},
-    {q:"من هو قائد الجيش؟", opts:["Erwin","Levi","Hange","Zeke"], correct:0},
-    {q:"أقوى Titan بحجم عملاق؟", opts:["Colossal Titan","Attack Titan","Beast Titan","Armored Titan"], correct:0}
-  ]
-};
-
-// باقي الأنميات (Demon Slayer, Jujutsu Kaisen, Bleach, Hunter x Hunter, Solo Leveling, My Hero Academia, Dragon Ball, Tokyo Ghoul, Black Clover) بنفس البنية
-// يمكن إضافة لاحقًا بنفس الشكل لكل مستوى
-
-// الاختبار الأخير منوع (Mixed Anime Quiz)
-questionsData["Mixed Anime Quiz"]={
-  "سهل":[
-    {q:"من هو بطل Black Clover؟", opts:["Asta","Yuno","Yami","Noelle"], correct:0},
-    {q:"من هو بطل My Hero Academia؟", opts:["Izuku Midoriya","Katsuki Bakugo","All Might","Shoto Todoroki"], correct:0},
-    {q:"أقوى تقنية في Dragon Ball؟", opts:["Kamehameha","Rasengan","Bankai","Chidori"], correct:0},
-    {q:"من قاتل Titans؟", opts:["Eren","Levi","Mikasa","Armin"], correct:0},
-    {q:"من قاتل Muzan؟", opts:["Tanjiro","Zenitsu","Nezuko","Inosuke"], correct:0},
-    {q:"من بطل Solo Leveling؟", opts:["Sung Jin-Woo","Cha Hae-In","Igris","Tao"], correct:0},
-    {q:"من هو بطل Jujutsu Kaisen؟", opts:["Yuji Itadori","Megumi Fushiguro","Nobara","Gojo"], correct:0},
-    {q:"من بطل Naruto؟", opts:["Naruto","Sasuke","Sakura","Kakashi"], correct:0},
-    {q:"من بطل Tokyo Ghoul؟", opts:["Ken Kaneki","Touka","Haise","Hinami"], correct:0},
-    {q:"من بطل Attack on Titan؟", opts:["Eren","Levi","Mikasa","Armin"], correct:0}
-  ],
-  "متوسط":[
-    {q:"أقوى شخصية في Dragon Ball Super؟", opts:["Goku","Vegeta","Jiren","Beerus"], correct:0},
-    {q:"تقنية Gojo النهائية؟", opts:["Infinity","Rasengan","Bankai","Chidori"], correct:0},
-    {q:"من هو قائد الفرقة الاستطلاعية؟", opts:["Erwin","Levi","Hanji","Zeke"], correct:0},
-    {q:"أقوى شخصية في Solo Leveling؟", opts:["Sung Jin-Woo","Cha Hae-In","Igris","Tao"], correct:0},
-    {q:"من قاتل Asta؟", opts:["Yuno","Yami","Asta","Noelle"], correct:1},
-    {q:"ما اسم قدرة Tanjiro النهائية؟", opts:["Hinokami Kagura","Rasengan","Bankai","Chidori"], correct:0},
-    {q:"من قاتل Madara؟", opts:["Naruto","Sasuke","Kakashi","Gai"], correct:0},
-    {q:"أقوى تقنية في Jujutsu Kaisen؟", opts:["Divergent Fist","Infinity","Cursed Technique","Domain Expansion"], correct:2},
-    {q:"من هو بطل Black Clover؟", opts:["Asta","Yuno","Yami","Noelle"], correct:0}
-  ],
-  "صعب":[
-    {q:"ما هو اسم Gojo بالإنجليزية مع الترجمة؟", opts:["Satoru Gojo (ساتورو جوجو)","Yuji Itadori","Megumi Fushiguro","Nobara"], correct:0},
-    {q:"ما اسم التقنية النهائية لإرين؟", opts:["Founding Titan (Titan المؤسس)","Attack Titan","Colossal Titan","Beast Titan"], correct:0},
-    {q:"أقوى شخصية في Solo Leveling؟", opts:["Sung Jin-Woo (سونغ جين وو)","Cha Hae-In","Igris","Tao"], correct:0},
-    {q:"من قاتل Muzan؟", opts:["Tanjiro (تانجيرو)","Zenitsu","Nezuko","Inosuke"], correct:0},
-    {q:"أقوى شخصية في Dragon Ball؟", opts:["Goku (غوكو)","Vegeta","Jiren","Beerus"], correct:0},
-    {q:"تقنية النهائية لناروتو؟", opts:["Rasengan (راسينغان)","Chidori","Kamehameha","Bankai"], correct:0},
-    {q:"أقوى شخصية في My Hero Academia؟", opts:["All Might (أول مايت)","Izuku Midoriya","Katsuki Bakugo","Shoto Todoroki"], correct:0},
-    {q:"من بطل Tokyo Ghoul؟", opts:["Ken Kaneki (كين كانيكي)","Touka","Haise","Hinami"], correct:0},
-    {q:"أقوى شخصية في Attack on Titan؟", opts:["Eren Yeager (إرين)","Levi","Mikasa","Armin"], correct:0},
-    {q:"من قاتل Madara؟", opts:["Naruto (ناروتو)","Sasuke","Kakashi","Gai"], correct:0}
-  ]
-};
-
-// ------------------------- وظائف الموقع النهائية -------------------------
-function startQuiz(level){
-  currentLevel=level;
-  current=0;
-  rawScore=0;
-  quizQuestions=(questionsData[currentAnime] && questionsData[currentAnime][currentLevel])?questionsData[currentAnime][currentLevel]:[];
-  document.getElementById('nextBtn').style.display='inline-block';
-  loadQuestion();
-}
-
-function loadQuestion(){
-  const q=quizQuestions[current];
-  if(!q){
-    document.getElementById('quiz').innerHTML="<p style='text-align:center;'>لا توجد أسئلة حالياً.</p>";
-    document.getElementById('nextBtn').style.display='none';
-    return;
-  }
-  document.getElementById('quiz').innerHTML=`<div class="question"><label>${current+1}. ${q.q}</label>
-  <select id="answer">${q.opts.map((opt,i)=>`<option value="${i}">${opt}</option>`).join('')}</select></div>`;
-  document.getElementById('progressBar').style.width=((current)/quizQuestions.length*100)+"%";
-  document.getElementById('nextBtn').innerText=current===quizQuestions.length-1?"إظهار النتيجة":"التالي";
-}
-
-function next(){
-  const q=quizQuestions[current];
-  if(q){
-    const ans=Number(document.getElementById("answer").value);
-    if(ans===q.correct) rawScore++;
-  }
-  current++;
-  if(current<quizQuestions.length) loadQuestion();
-  else showResult();
-}
-
-function showResult(){
-  const iq=Math.round((rawScore/quizQuestions.length)*140);
-  const result=document.getElementById('resultBox');
-  result.style.display="block";
-  result.innerHTML=`<div class="title">IQ: ${iq}</div>
-  <div class="title">درجة الاختبار: ${rawScore} من ${quizQuestions.length}</div>`;
-  document.getElementById('nextBtn').style.display='none';
-}
-
-                                              </script>
+    <script>
+        // بيانات الأنميات والأسئلة - محدثة ومصححة
+        const animeData = {
+            "ناروتو": {
+                image: "https://images.unsplash.com/photo-1578662996442-48f60103fc96?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
+                questions: [
+                    {
+                        question: "ما هو اسم الذئب ذو الذيول الذي يعيش داخل ناروتو؟",
+                        options: ["كوراما", "شوكاكو", "ماتاتابي", "إيسو"],
+                        correct: 0
+                    },
+                    {
+                        question: "من هو المعلم الذي علم ناروتو تقنية الراسينغان؟",
+                        options: ["جيرايا", "كاكاشي", "إيروكا", "هيروزن"],
+                        correct: 0
+                    },
+                    {
+                        question: "ما هي القرية التي ينتمي إليها ناروتو؟",
+                        options: ["قرية الورق المخفية", "قرية الضباب", "قرية الرمل", "قرية السحاب"],
+                        correct: 0
+                    },
+                    {
+                        question: "من هو والد ناروتو؟",
+                    
