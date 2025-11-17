@@ -3,198 +3,151 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>اختبار الذكاء IQ – Zayro.test</title>
+<title>ZayroX_Anime</title>
 <style>
-  body {
-    margin: 0;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: linear-gradient(135deg, #111, #222);
-    color: #fff;
-    display: flex;
-    justify-content: center;
-    padding: 20px;
-  }
-  .container {
-    max-width: 650px;
-    width: 100%;
-    background: #1a1a1a;
-    padding: 30px 40px;
-    border-radius: 20px;
-    box-shadow: 0 0 25px rgba(0,0,0,0.6);
-    position: relative;
-  }
-  h1 {
-    text-align: center;
-    margin-bottom: 25px;
-    color: #4ec9ff;
-    font-size: 32px;
-  }
-  .intro {
-    text-align: center;
-    font-size: 18px;
-    margin-bottom: 25px;
-    line-height: 1.5;
-  }
-  .btn {
-    width: 100%;
-    padding: 14px;
-    border: none;
-    border-radius: 12px;
-    background: #4ec9ff;
-    color: #000;
-    font-size: 18px;
-    cursor: pointer;
-    margin-top: 20px;
-    transition: 0.3s;
-  }
-  .btn:hover {
-    background: #3bb0e0;
-  }
-  .question {
-    margin-bottom: 24px;
-  }
-  label {
-    display: block;
-    margin-bottom: 12px;
-    font-size: 20px;
-  }
-  select, input[type="radio"] {
-    margin-right: 8px;
-    font-size: 18px;
-    padding: 8px;
-    border-radius: 8px;
-  }
-  #resultBox {
-    background: #000;
-    padding: 25px;
-    margin-top: 30px;
-    border-radius: 16px;
-    display: none;
-    font-size: 16px;
-  }
-  .title { color: #4ec9ff; margin-bottom: 10px; font-size: 20px; }
-  .progress {
-    height: 12px;
-    background: #333;
-    border-radius: 8px;
-    margin-bottom: 25px;
-    overflow: hidden;
-  }
-  .progress-bar {
-    height: 100%;
-    width: 0%;
-    background: #4ec9ff;
-    transition: 0.5s;
-  }
-  .watermark {
-    position: absolute;
-    bottom: 10px;
-    right: 10px;
-    font-size: 12px;
-    color: rgba(255,255,255,0.3);
-    user-select: none;
-  }
-  @media(max-width: 480px){
-    .container {
-      padding: 20px;
-    }
-    h1 { font-size: 26px; }
-    label { font-size: 18px; }
-    .btn { font-size: 16px; }
-  }
+  body {margin:0; font-family:'Segoe UI',sans-serif; background:linear-gradient(135deg,#111,#222); color:#fff; padding:20px;}
+  h1{text-align:center; color:#4ec9ff; font-size:32px; margin-bottom:20px;}
+  .container{max-width:1000px; margin:auto;}
+  .cards{display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:20px;}
+  .card{background:#1a1a1a; border-radius:16px; padding:15px; box-shadow:0 0 20px rgba(0,0,0,0.4); cursor:pointer; transition:0.3s; position:relative;}
+  .card img{width:100%; border-radius:12px;}
+  .card h2{margin:10px 0; font-size:22px; color:#4ec9ff;}
+  .card .visitors{position:absolute; top:10px; left:10px; font-size:14px; background:rgba(0,0,0,0.6); padding:5px 10px; border-radius:10px;}
+  #quizContainer{display:none; margin-top:20px;}
+  .question{margin-bottom:20px;}
+  label{display:block; margin-bottom:10px; font-size:18px;}
+  select{width:100%; padding:10px; border-radius:10px; font-size:16px;}
+  .btn{background:#4ec9ff; color:#000; padding:12px 20px; border:none; border-radius:12px; font-size:18px; cursor:pointer; margin-top:15px;}
+  .btn:hover{background:#3bb0e0;}
+  #resultBox{display:none; background:#000; padding:20px; border-radius:16px; margin-top:20px;}
+  .title{color:#4ec9ff; font-size:20px; margin-bottom:8px;}
+  .watermark{position:fixed; bottom:10px; right:10px; font-size:12px; color:rgba(255,255,255,0.3); user-select:none;}
+  .progress{height:12px; background:#333; border-radius:8px; margin-bottom:20px; overflow:hidden;}
+  .progress-bar{height:100%; width:0%; background:#4ec9ff; transition:0.5s;}
+  @media(max-width:480px){h1{font-size:26px;}}
 </style>
 </head>
 <body>
+<h1>ZayroX_Anime</h1>
 <div class="container">
-  <h1>اختبار الذكاء IQ</h1>
-  <div class="intro">
-    مرحبًا! اختبر ذكاءك بطريقة ممتعة وسريعة. سيقيس هذا الاختبار قدراتك المنطقية، البصرية، والحسابية في 10 أسئلة فقط. حاول الإجابة بأفضل ما لديك!
+  <div class="cards" id="animeCards"></div>
+  <div id="quizContainer">
+    <div class="progress"><div class="progress-bar" id="progressBar"></div></div>
+    <div id="quiz"></div>
+    <button class="btn" id="nextBtn" onclick="next()">ابدأ</button>
+    <div id="resultBox"></div>
   </div>
-  <div id="quiz"></div>
-  <div class="progress"><div class="progress-bar" id="progressBar"></div></div>
-  <button class="btn" id="nextBtn" onclick="next()">ابدأ الاختبار</button>
-  <div id="resultBox"></div>
-  <div class="watermark">المطور: عبدالرحمن أنور</div>
 </div>
+<div class="watermark">المطور: عبدالرحمن أنور</div>
 
 <script>
-const questions = [
-  {q:"أكمل التسلسل: 2, 4, 8, 16, ___ ؟", opts:["18","20","32","24"], correctIndex:2, difficulty:3, timeLimit:30},
-  {q:"أي الرقم لا ينتمي للمجموعة؟ 2, 4, 8, 9, 16", opts:["4","9","16","8"], correctIndex:1, difficulty:2, timeLimit:25},
-  {q:"5, 8, 11, ___ ؟", opts:["14","13","12","15"], correctIndex:1, difficulty:2, timeLimit:20},
-  {q:"الكلمة التي لا تنتمي: كتاب، دفتر، قلم، كرسي", opts:["كتاب","قلم","كرسي","دفتر"], correctIndex:2, difficulty:2, timeLimit:20},
-  {q:"أي الرقم أكبر: 53 × 2 أم 101؟", opts:["106","101","103","102"], correctIndex:0, difficulty:2, timeLimit:15},
-  {q:"1, 1, 2, 3, 5, ___ ؟", opts:["6","7","8","9"], correctIndex:2, difficulty:2, timeLimit:20},
-  {q:"إذا كانت كل التفاحات فواكه وكل الفواكه صالحة للأكل، فالتفاح؟", opts:["صالح للأكل","ليس فاكهة","أحمر فقط","لا يمكن تحديده"], correctIndex:0, difficulty:2, timeLimit:25},
-  {q:"أي الشكل يكمل النمط؟", opts:["شكل أ","شكل ب","شكل ج","شكل د"], correctIndex:2, difficulty:3, timeLimit:35},
-  {q:"7 × 8 = ؟", opts:["48","54","56","64"], correctIndex:2, difficulty:2, timeLimit:15},
-  {q:"لديك سلسلة أرقام: 10, 20, 40, ___ ؟", opts:["50","60","80","70"], correctIndex:2, difficulty:3, timeLimit:25}
+// قائمة الأنميات
+const animes = [
+  {name:"Naruto", img:"https://upload.wikimedia.org/wikipedia/en/9/94/NarutoCoverTankobon1.jpg"},
+  {name:"Attack on Titan", img:"https://upload.wikimedia.org/wikipedia/en/0/0d/Shingeki_no_Kyojin_manga_volume_1.jpg"},
+  {name:"Demon Slayer", img:"https://upload.wikimedia.org/wikipedia/en/9/9f/Kimetsu_no_Yaiba_vol01.jpg"},
+  {name:"Jujutsu Kaisen", img:"https://upload.wikimedia.org/wikipedia/en/0/0e/Jujutsu_Kaisen_Volume_1.jpg"},
+  {name:"Bleach", img:"https://upload.wikimedia.org/wikipedia/en/3/3e/Bleach_cover.jpg"},
+  {name:"Hunter x Hunter", img:"https://upload.wikimedia.org/wikipedia/en/6/61/Hunter_X_Hunter_cover.jpg"},
+  {name:"Solo Leveling", img:"https://upload.wikimedia.org/wikipedia/en/6/66/Solo_Leveling.jpg"},
+  {name:"My Hero Academia", img:"https://upload.wikimedia.org/wikipedia/en/5/5a/Boku_no_Hero_Academia_volume_1.jpg"},
+  {name:"Dragon Ball", img:"https://upload.wikimedia.org/wikipedia/en/f/f4/Dragon_Ball_volume_1_cover.jpg"},
+  {name:"Tokyo Ghoul", img:"https://upload.wikimedia.org/wikipedia/en/1/1e/Tokyo_Ghoul_vol_1.jpg"},
+  {name:"Black Clover", img:"https://upload.wikimedia.org/wikipedia/en/9/9b/Black_Clover_volume_1.jpg"},
+  {name:"Mixed Anime Quiz", img:"https://upload.wikimedia.org/wikipedia/en/e/e0/Anime_icon.jpg"}
 ];
 
-let current = -1;
+const visitorCounts = {};
+const animeCards = document.getElementById('animeCards');
+animes.forEach(anime=>{
+  if(!localStorage.getItem(anime.name)) localStorage.setItem(anime.name,0);
+  visitorCounts[anime.name] = parseInt(localStorage.getItem(anime.name));
+  const card = document.createElement('div');
+  card.className='card';
+  card.innerHTML=`<div class="visitors">${visitorCounts[anime.name]} زائر</div><img src="${anime.img}"><h2>${anime.name}</h2>`;
+  card.onclick=()=>selectLevel(anime.name);
+  animeCards.appendChild(card);
+});
+
+// أسئلة كمثال لكل أنمي والمستويات
+const questionsData = {
+  "Naruto":{
+    "سهل":[
+      {q:"من هو بطل ناروتو؟", opts:["ناروتو","ساكورا","ساسكي","كاكاشي"], correct:0},
+      {q:"اسم كلب كاكاشي؟", opts:["باك","باكو","بينا","نوبو"], correct:1},
+      {q:"النينجا من قرية الورق؟", opts:["ناروتو","ساسكي","كاكاشي","هينو"], correct:0}
+    ],
+    "متوسط":[
+      {q:"من هو معلم ناروتو؟", opts:["كاكاشي","جيرايا","هيرو","سابو"], correct:1},
+      {q:"أقوى شخصية في ناروتو شيبودن؟", opts:["ناروتو","ساسكي","مدارا","هيرو"], correct:2}
+    ],
+    "صعب":[
+      {q:"من هو أصغر هوكاجي؟", opts:["ناروتو","تسونا","كاكاشي","ميناتو"], correct:3},
+      {q:"كم من الذيل يمتلك كيوبي؟", opts:["9","8","7","6"], correct:0}
+    ]
+  }
+};
+
+// المتغيرات العامة
+let currentAnime = "";
+let currentLevel = "";
+let current = 0;
 let rawScore = 0;
 let startTime = null;
+let quizQuestions = [];
+
+function selectLevel(animeName){
+  currentAnime = animeName;
+  // زيادة الزوار
+  visitorCounts[animeName]++;
+  localStorage.setItem(animeName,visitorCounts[animeName]);
+  animeCards.innerHTML="";
+  // اختيار المستوى
+  animeCards.innerHTML=`<h2 style="text-align:center;margin-bottom:15px;">اختر المستوى لـ ${animeName}</h2>
+  <button class="btn" onclick="startQuiz('سهل')">سهل</button>
+  <button class="btn" onclick="startQuiz('متوسط')">متوسط</button>
+  <button class="btn" onclick="startQuiz('صعب')">صعب</button>
+  <div class="watermark">المطور: عبدالرحمن أنور</div>`;
+}
+
+function startQuiz(level){
+  currentLevel=level;
+  current=0;
+  rawScore=0;
+  quizQuestions=questionsData[currentAnime]?[currentLevel]:[];
+  document.getElementById('quizContainer').style.display='block';
+  loadQuestion();
+}
 
 function loadQuestion(){
-  if(current<0) {document.getElementById("nextBtn").innerText="التالي";}
-  const q = questions[current];
-  startTime = Date.now();
-  const quiz = document.getElementById("quiz");
-  quiz.innerHTML = `
-    <div class="question">
-      <label>${current+1}. ${q.q}</label>
-      <select id="answer">
-        ${q.opts.map((opt,i)=>`<option value="${i}">${opt}</option>`).join('')}
-      </select>
-    </div>
-  `;
-  document.getElementById("progressBar").style.width = ((current+1)/questions.length*100)+"%";
+  const q=quizQuestions[current];
+  if(!q) return;
+  startTime=Date.now();
+  document.getElementById('quiz').innerHTML=`<div class="question"><label>${current+1}. ${q.q}</label>
+  <select id="answer">${q.opts.map((opt,i)=>`<option value="${i}">${opt}</option>`).join('')}</select></div>`;
+  document.getElementById('nextBtn').innerText=current===quizQuestions.length-1?"إظهار النتيجة":"التالي";
+  document.getElementById('progressBar').style.width=((current+1)/quizQuestions.length*100)+"%";
 }
 
 function next(){
-  if(current>=0){
-    const ans = Number(document.getElementById("answer").value);
-    const elapsed = (Date.now() - startTime)/1000;
-    const q = questions[current];
-    if(ans===q.correctIndex){
-      let score = q.difficulty;
-      if(elapsed < q.timeLimit){
-        score += (q.timeLimit - elapsed)/q.timeLimit * q.difficulty;
-      }
-      rawScore += score;
-    }
+  const q=quizQuestions[current];
+  if(q){
+    const ans=Number(document.getElementById("answer").value);
+    if(ans===q.correct) rawScore++;
   }
   current++;
-  if(current<questions.length){
-    loadQuestion();
-  } else {
-    showResult();
-  }
+  if(current<quizQuestions.length) loadQuestion();
+  else showResult();
 }
 
 function showResult(){
-  const mu = questions.length*2.2; // متوسط تقريبي
-  const sigma = questions.length*0.9; // انحراف معياري
-  const z = (rawScore - mu)/sigma;
-  const iq = Math.round(z*15 + 100);
-
-  const result = document.getElementById("resultBox");
+  const iq=Math.round((rawScore/quizQuestions.length)*140);
+  const result=document.getElementById('resultBox');
   result.style.display="block";
-  result.innerHTML = `
-    <div class="title">IQ: ${iq}</div>
-    <div class="title">الدرجة الخام: ${rawScore.toFixed(2)}</div>
-    <div class="title">تحليل سريع:</div>
-    <ul>
-      <li>إذا كانت النتيجة >120: ذكاء فوق المتوسط</li>
-      <li>90-120: ذكاء متوسط</li>
-      <li><90: يحتاج تطوير بعض المهارات</li>
-    </ul>
-  `;
-  document.getElementById("nextBtn").style.display="none";
+  result.innerHTML=`<div class="title">IQ: ${iq}</div>
+  <div class="title">درجة الاختبار: ${rawScore} من ${quizQuestions.length}</div>`;
+  document.getElementById('nextBtn').style.display='none';
 }
-
-current=0;
-loadQuestion();
 </script>
 </body>
 </html>
