@@ -5,43 +5,45 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>ZayroX_Anime</title>
 <style>
-  body {margin:0; font-family:'Segoe UI',sans-serif; background:linear-gradient(135deg,#111,#222); color:#fff; padding:20px;}
-  h1{text-align:center; color:#4ec9ff; font-size:32px; margin-bottom:20px;}
-  .container{max-width:1000px; margin:auto;}
-  .cards{display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:20px;}
-  .card{background:#1a1a1a; border-radius:16px; padding:15px; box-shadow:0 0 20px rgba(0,0,0,0.4); cursor:pointer; transition:0.3s; position:relative;}
-  .card img{width:100%; border-radius:12px;}
-  .card h2{margin:10px 0; font-size:22px; color:#4ec9ff;}
-  .card .visitors{position:absolute; top:10px; left:10px; font-size:14px; background:rgba(0,0,0,0.6); padding:5px 10px; border-radius:10px;}
-  #quizContainer{display:none; margin-top:20px;}
-  .question{margin-bottom:20px;}
-  label{display:block; margin-bottom:10px; font-size:18px;}
-  select{width:100%; padding:10px; border-radius:10px; font-size:16px;}
-  .btn{background:#4ec9ff; color:#000; padding:12px 20px; border:none; border-radius:12px; font-size:18px; cursor:pointer; margin-top:15px;}
-  .btn:hover{background:#3bb0e0;}
-  #resultBox{display:none; background:#000; padding:20px; border-radius:16px; margin-top:20px;}
-  .title{color:#4ec9ff; font-size:20px; margin-bottom:8px;}
-  .watermark{position:fixed; bottom:10px; right:10px; font-size:12px; color:rgba(255,255,255,0.3); user-select:none;}
-  .progress{height:12px; background:#333; border-radius:8px; margin-bottom:20px; overflow:hidden;}
-  .progress-bar{height:100%; width:0%; background:#4ec9ff; transition:0.5s;}
-  @media(max-width:480px){h1{font-size:26px;}}
+body {margin:0; font-family:'Segoe UI',sans-serif; background:linear-gradient(135deg,#111,#1a001a); color:#fff; padding:20px;}
+h1{text-align:center; color:#b366ff; font-size:32px; margin-bottom:20px;}
+.container{max-width:1000px; margin:auto;}
+.cards{display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:20px;}
+.card{background:#1a001a; border-radius:16px; padding:15px; box-shadow:0 0 20px rgba(0,0,0,0.4); cursor:pointer; transition:0.3s; position:relative;}
+.card img{width:100%; border-radius:12px;}
+.card h2{margin:10px 0; font-size:22px; color:#b366ff;}
+.card .visitors{position:absolute; top:10px; left:10px; font-size:14px; background:rgba(0,0,0,0.6); padding:5px 10px; border-radius:10px;}
+#quizContainer{display:none; margin-top:20px;}
+.progress{height:12px; background:#333; border-radius:8px; margin-bottom:20px; overflow:hidden;}
+.progress-bar{height:100%; width:0%; background:#b366ff; transition:0.5s;}
+.question{margin-bottom:20px;}
+label{display:block; margin-bottom:10px; font-size:18px;}
+select{width:100%; padding:10px; border-radius:10px; font-size:16px;}
+.btn{background:#b366ff; color:#fff; padding:12px 20px; border:none; border-radius:12px; font-size:18px; cursor:pointer; margin-top:15px;}
+.btn:hover{background:#9933ff;}
+#resultBox{display:none; background:#000; padding:20px; border-radius:16px; margin-top:20px;}
+.title{color:#b366ff; font-size:20px; margin-bottom:8px;}
+.watermark{position:fixed; bottom:10px; right:10px; font-size:12px; color:rgba(255,255,255,0.3); user-select:none;}
+#backBtn{background:#333; color:#fff; padding:8px 15px; margin-bottom:15px; border-radius:10px; font-size:16px; cursor:pointer;}
+@media(max-width:480px){h1{font-size:26px;}}
 </style>
 </head>
 <body>
 <h1>ZayroX_Anime</h1>
 <div class="container">
-  <div class="cards" id="animeCards"></div>
-  <div id="quizContainer">
-    <div class="progress"><div class="progress-bar" id="progressBar"></div></div>
-    <div id="quiz"></div>
-    <button class="btn" id="nextBtn" onclick="next()">ابدأ</button>
-    <div id="resultBox"></div>
-  </div>
+<div class="cards" id="animeCards"></div>
+<div id="quizContainer">
+<button id="backBtn" onclick="backToHome()">العودة للصفحة الرئيسية</button>
+<div class="progress"><div class="progress-bar" id="progressBar"></div></div>
+<div id="quiz"></div>
+<button class="btn" id="nextBtn" onclick="next()">التالي</button>
+<div id="resultBox"></div>
+</div>
 </div>
 <div class="watermark">المطور: عبدالرحمن أنور</div>
 
 <script>
-// قائمة الأنميات
+// بيانات الأنميات
 const animes = [
   {name:"Naruto", img:"https://upload.wikimedia.org/wikipedia/en/9/94/NarutoCoverTankobon1.jpg"},
   {name:"Attack on Titan", img:"https://upload.wikimedia.org/wikipedia/en/0/0d/Shingeki_no_Kyojin_manga_volume_1.jpg"},
@@ -69,64 +71,73 @@ animes.forEach(anime=>{
   animeCards.appendChild(card);
 });
 
-// أسئلة كمثال لكل أنمي والمستويات
+// أسئلة المستويات السهلة والمتوسطة لكل الأنميات
 const questionsData = {
   "Naruto":{
     "سهل":[
       {q:"من هو بطل ناروتو؟", opts:["ناروتو","ساكورا","ساسكي","كاكاشي"], correct:0},
-      {q:"اسم كلب كاكاشي؟", opts:["باك","باكو","بينا","نوبو"], correct:1},
-      {q:"النينجا من قرية الورق؟", opts:["ناروتو","ساسكي","كاكاشي","هينو"], correct:0}
+      {q:"اسم والد ناروتو؟", opts:["ميناتو","هزومي","توبي","هيرو"], correct:0},
+      {q:"أقوى تقنية لناروتو؟", opts:["Rasengan (راسينغان)","Chidori","Kamehameha","Bankai"], correct:0},
+      {q:"اسم صديق طفولة ناروتو؟", opts:["ساسكي","كوبا","كيتو","هيتا"], correct:0},
+      {q:"أي قرية تنتمي لكاكاشي؟", opts:["الورق","الرمل","الرعد","الثلج"], correct:0},
+      {q:"من هو قائد فريق 7؟", opts:["كاكاشي","جيرايا","ناروتو","هيتا"], correct:0},
+      {q:"ما اسم زوجة ناروتو؟", opts:["ساكورا","هيناتا","ميساكي","ميسو"], correct:1},
+      {q:"كم ذيل يمتلك كيوبي؟", opts:["9","8","7","6"], correct:0},
+      {q:"اسم أخ ساسكي؟", opts:["Itachi","Kisame","Tobi","Madara"], correct:0},
+      {q:"من قاتل أوروتشيمارو؟", opts:["ناروتو","ساسكي","جيرايا","كابوتو"], correct:1}
     ],
     "متوسط":[
       {q:"من هو معلم ناروتو؟", opts:["كاكاشي","جيرايا","هيرو","سابو"], correct:1},
-      {q:"أقوى شخصية في ناروتو شيبودن؟", opts:["ناروتو","ساسكي","مدارا","هيرو"], correct:2}
-    ],
-    "صعب":[
-      {q:"من هو أصغر هوكاجي؟", opts:["ناروتو","تسونا","كاكاشي","ميناتو"], correct:3},
-      {q:"كم من الذيل يمتلك كيوبي؟", opts:["9","8","7","6"], correct:0}
+      {q:"أقوى شخصية في ناروتو شيبودن؟", opts:["ناروتو","ساسكي","مدارا","هيرو"], correct:2},
+      {q:"ما اسم تقنية ساسكي الشهيرة؟", opts:["Sharingan (شانغن)","Rasengan","Kamehameha","Bankai"], correct:0},
+      {q:"من قاتل هيروزن نينجا من قرية الرمل؟", opts:["Gaara","Kankuro","Temari","Haku"], correct:0},
+      {q:"كم جزء للأنمي ناروتو؟", opts:["1","2","3","4"], correct:2},
+      {q:"من هو أقوى هوكاجي؟", opts:["ميناتو","ناروتو","تسونا","كاكاشي"], correct:1},
+      {q:"من هو زعيم الأكاتسوكي؟", opts:["Itachi","Pain","Kisame","Tobi"], correct:3},
+      {q:"تقنية ناروتو النهائية؟", opts:["Sage Mode","Rasengan","Chidori","Bankai"], correct:0},
+      {q:"من قاتل ناغاتو؟", opts:["ناروتو","جيرايا","كاكاشي","ساسكي"], correct:0},
+      {q:"اسم أخ ساسكي؟", opts:["Itachi","Kisame","Tobi","Madara"], correct:0}
     ]
   }
+  // ملاحظة: باقي الأنميات ستتم إضافتها بنفس البنية في الجزء الثاني
 };
 
 // المتغيرات العامة
-let currentAnime = "";
-let currentLevel = "";
-let current = 0;
-let rawScore = 0;
-let startTime = null;
-let quizQuestions = [];
+let currentAnime="", currentLevel="", current=0, rawScore=0, quizQuestions=[];
 
 function selectLevel(animeName){
-  currentAnime = animeName;
-  // زيادة الزوار
+  currentAnime=animeName;
   visitorCounts[animeName]++;
   localStorage.setItem(animeName,visitorCounts[animeName]);
-  animeCards.innerHTML="";
-  // اختيار المستوى
-  animeCards.innerHTML=`<h2 style="text-align:center;margin-bottom:15px;">اختر المستوى لـ ${animeName}</h2>
+  animeCards.style.display='none';
+  document.getElementById('quizContainer').style.display='block';
+  document.getElementById('quiz').innerHTML=`<h2 style="text-align:center;margin-bottom:15px;">اختر المستوى لـ ${animeName}</h2>
   <button class="btn" onclick="startQuiz('سهل')">سهل</button>
   <button class="btn" onclick="startQuiz('متوسط')">متوسط</button>
-  <button class="btn" onclick="startQuiz('صعب')">صعب</button>
-  <div class="watermark">المطور: عبدالرحمن أنور</div>`;
+  <button class="btn" onclick="startQuiz('صعب')">صعب</button>`;
+  document.getElementById('nextBtn').style.display='none';
 }
 
 function startQuiz(level){
   currentLevel=level;
   current=0;
   rawScore=0;
-  quizQuestions=questionsData[currentAnime]?[currentLevel]:[];
-  document.getElementById('quizContainer').style.display='block';
+  quizQuestions=(questionsData[currentAnime] && questionsData[currentAnime][currentLevel])?questionsData[currentAnime][currentLevel]:[];
+  document.getElementById('nextBtn').style.display='inline-block';
   loadQuestion();
 }
 
 function loadQuestion(){
   const q=quizQuestions[current];
-  if(!q) return;
-  startTime=Date.now();
+  if(!q){
+    document.getElementById('quiz').innerHTML="<p style='text-align:center;'>لا توجد أسئلة حالياً.</p>";
+    document.getElementById('nextBtn').style.display='none';
+    return;
+  }
   document.getElementById('quiz').innerHTML=`<div class="question"><label>${current+1}. ${q.q}</label>
   <select id="answer">${q.opts.map((opt,i)=>`<option value="${i}">${opt}</option>`).join('')}</select></div>`;
+  document.getElementById('progressBar').style.width=((current)/quizQuestions.length*100)+"%";
   document.getElementById('nextBtn').innerText=current===quizQuestions.length-1?"إظهار النتيجة":"التالي";
-  document.getElementById('progressBar').style.width=((current+1)/quizQuestions.length*100)+"%";
 }
 
 function next(){
@@ -148,6 +159,162 @@ function showResult(){
   <div class="title">درجة الاختبار: ${rawScore} من ${quizQuestions.length}</div>`;
   document.getElementById('nextBtn').style.display='none';
 }
+
+function backToHome(){
+  document.getElementById('quizContainer').style.display='none';
+  animeCards.style.display='grid';
+  animeCards.innerHTML="";
+  animes.forEach(anime=>{
+    const card = document.createElement('div');
+    card.className='card';
+    visitorCounts[anime.name]=parseInt(localStorage.getItem(anime.name));
+    card.innerHTML=`<div class="visitors">${visitorCounts[anime.name]} زائر</div><img src="${anime.img}"><h2>${anime.name}</h2>`;
+    card.onclick=()=>selectLevel(anime.name);
+    animeCards.appendChild(card);
+  });
+  document.getElementById('resultBox').style.display='none';
+}
 </script>
 </body>
 </html>
+
+<script>
+// ------------------------- الأسئلة للمستوى الصعب -------------------------
+questionsData["Naruto"]["صعب"]=[
+  {q:"ما هو اسم تقنية ناروتو النهائية باللغة الأصلية؟", opts:["Rasengan (راسينغان)","Chidori","Kamehameha","Bankai"], correct:0},
+  {q:"ما اسم والدة ناروتو؟", opts:["Kushina","Hinata","Mikasa","Sakura"], correct:0},
+  {q:"من قاتل أوروتشيمارو في النهاية؟", opts:["ساسكي","ناروتو","كاكاشي","جيرايا"], correct:0},
+  {q:"ما اسم البيجو ذو 9 ذيول بالإنجليزية؟", opts:["Kurama","Shukaku","Matatabi","Gyuki"], correct:0},
+  {q:"ما هو اسم فريق ساسكي بعد خروجه من القرية؟", opts:["Team Hebi","Team 7","Akatsuki","Team 10"], correct:0},
+  {q:"ما اسم تقنية ساسكي النهائية بالإنجليزية؟", opts:["Amaterasu","Rasengan","Kamehameha","Bankai"], correct:0},
+  {q:"من هو قائد الأكاتسوكي الحقيقي؟", opts:["Pain","Itachi","Kisame","Tobi"], correct:3},
+  {q:"ما اسم والدة ساسكي؟", opts:["Mikoto","Kushina","Sakura","Hinata"], correct:0},
+  {q:"ما هي أطول معركة لناروتو في الأنمي؟", opts:["ناروتو ضد ساسكي","ناروتو ضد كاكاشي","ناروتو ضد أوروتشيمارو","ناروتو ضد مدارا"], correct:3},
+  {q:"من هو أقوى هوكاجي على الإطلاق؟", opts:["هيرا","ميناتو","كاكاشي","ناروتو"], correct:3}
+];
+
+// إضافة الأنميات الأخرى بنفس البنية (سهل، متوسط، صعب)
+questionsData["Attack on Titan"]={
+  "سهل":[
+    {q:"من بطل القصة؟", opts:["إرين","ليفي","ميكاسا","أرمين"], correct:0},
+    {q:"ما اسم الصديق الأقرب لإرين؟", opts:["ميكاسا","ليفي","أرمين","هانجي"], correct:2},
+    {q:"من هو القائد الأعلى للجيش؟", opts:["ليفي","هانجي","إرن","أودين"], correct:1},
+    {q:"أعداء البشر الرئيسيين؟", opts:["العمالقة","الزومبي","السحرة","الآليين"], correct:0},
+    {q:"من أقوى الجنود في الفرقة الاستطلاعية؟", opts:["ليفي","إرين","أرمين","ميكاسا"], correct:0},
+    {q:"اسم الفيلسوف الذي كشف سر العمالقة؟", opts:["زايك","إيروين","هانجي","ليفي"], correct:0},
+    {q:"ما نوع العمالقة الذي يسيطر عليه إرين؟", opts:["Attack Titan","Colossal Titan","Armored Titan","Beast Titan"], correct:0},
+    {q:"ما اسم القرية التي ينتمي لها أرين؟", opts:["Shiganshina","Trost","Wall Rose","Wall Sina"], correct:0},
+    {q:"من هو عم إرين؟", opts:["Grisha","Zeke","Levi","Erwin"], correct:0},
+    {q:"ما اسم شخصية المحققة المهووسة بالعمالقة؟", opts:["Hanji","Levi","Mikasa","Armin"], correct:0}
+  ],
+  "متوسط":[
+    {q:"من قاتل راينر؟", opts:["إرين","ليفي","ميكاسا","أرمين"], correct:1},
+    {q:"أقوى titan في السلسلة؟", opts:["Founding Titan","Colossal Titan","Beast Titan","Armored Titan"], correct:0},
+    {q:"ما اسم والدة ميكاسا؟", opts:["Kiyomi","Carla","Sasha","Hanna"], correct:1},
+    {q:"ما اسم قائد الفرقة الاستطلاعية؟", opts:["Erwin","Levi","Hange","Eren"], correct:0},
+    {q:"من هو قاتل بيرتولت؟", opts:["ليفي","ميكاسا","إرين","هانجي"], correct:0},
+    {q:"اسم العدو الذي يتحكم بالعقل؟", opts:["Zeke","Armin","Eren","Reiner"], correct:0},
+    {q:"أقوى معركة لليفي؟", opts:["ضد الوحشية","ضد Beast Titan","ضد Eren","ضد Reiner"], correct:1},
+    {q:"من الذي كشف سر الجدران؟", opts:["هانجي","إيروين","ليفي","إرين"], correct:1},
+    {q:"ما اسم Titan الذي يحمي إرين؟", opts:["Attack Titan","Colossal Titan","Armored Titan","Founding Titan"], correct:0},
+    {q:"من هو المخترع الحقيقي للأسلحة؟", opts:["Hanji","Levi","Erwin","Zeke"], correct:0}
+  ],
+  "صعب":[
+    {q:"ما اسم والدة إرين؟", opts:["Carla","Mina","Mikasa","Kiyomi"], correct:0},
+    {q:"من هو القائد السابق للفرقة الاستطلاعية؟", opts:["Erwin","Levi","Hanji","Zeke"], correct:0},
+    {q:"من الذي اكتشف سر الجدران؟", opts:["Erwin","Hanji","Levi","Eren"], correct:0},
+    {q:"ما اسم Titan الذي يملكه Zeke؟", opts:["Beast Titan","Attack Titan","Founding Titan","Armored Titan"], correct:0},
+    {q:"ما اسم Titan الذي يملكه Reiner؟", opts:["Armored Titan","Colossal Titan","Attack Titan","Beast Titan"], correct:0},
+    {q:"من قاتل Titan Colossal؟", opts:["ليفي","إرين","هانجي","ميكاسا"], correct:0},
+    {q:"ما اسم تقنية الإرين النهائية؟", opts:["Founding Titan","Attack Titan","Colossal Titan","Armored Titan"], correct:0},
+    {q:"من هو قائد الجيش؟", opts:["Erwin","Levi","Hange","Zeke"], correct:0},
+    {q:"أقوى Titan بحجم عملاق؟", opts:["Colossal Titan","Attack Titan","Beast Titan","Armored Titan"], correct:0}
+  ]
+};
+
+// باقي الأنميات (Demon Slayer, Jujutsu Kaisen, Bleach, Hunter x Hunter, Solo Leveling, My Hero Academia, Dragon Ball, Tokyo Ghoul, Black Clover) بنفس البنية
+// يمكن إضافة لاحقًا بنفس الشكل لكل مستوى
+
+// الاختبار الأخير منوع (Mixed Anime Quiz)
+questionsData["Mixed Anime Quiz"]={
+  "سهل":[
+    {q:"من هو بطل Black Clover؟", opts:["Asta","Yuno","Yami","Noelle"], correct:0},
+    {q:"من هو بطل My Hero Academia؟", opts:["Izuku Midoriya","Katsuki Bakugo","All Might","Shoto Todoroki"], correct:0},
+    {q:"أقوى تقنية في Dragon Ball؟", opts:["Kamehameha","Rasengan","Bankai","Chidori"], correct:0},
+    {q:"من قاتل Titans؟", opts:["Eren","Levi","Mikasa","Armin"], correct:0},
+    {q:"من قاتل Muzan؟", opts:["Tanjiro","Zenitsu","Nezuko","Inosuke"], correct:0},
+    {q:"من بطل Solo Leveling؟", opts:["Sung Jin-Woo","Cha Hae-In","Igris","Tao"], correct:0},
+    {q:"من هو بطل Jujutsu Kaisen؟", opts:["Yuji Itadori","Megumi Fushiguro","Nobara","Gojo"], correct:0},
+    {q:"من بطل Naruto؟", opts:["Naruto","Sasuke","Sakura","Kakashi"], correct:0},
+    {q:"من بطل Tokyo Ghoul؟", opts:["Ken Kaneki","Touka","Haise","Hinami"], correct:0},
+    {q:"من بطل Attack on Titan؟", opts:["Eren","Levi","Mikasa","Armin"], correct:0}
+  ],
+  "متوسط":[
+    {q:"أقوى شخصية في Dragon Ball Super؟", opts:["Goku","Vegeta","Jiren","Beerus"], correct:0},
+    {q:"تقنية Gojo النهائية؟", opts:["Infinity","Rasengan","Bankai","Chidori"], correct:0},
+    {q:"من هو قائد الفرقة الاستطلاعية؟", opts:["Erwin","Levi","Hanji","Zeke"], correct:0},
+    {q:"أقوى شخصية في Solo Leveling؟", opts:["Sung Jin-Woo","Cha Hae-In","Igris","Tao"], correct:0},
+    {q:"من قاتل Asta؟", opts:["Yuno","Yami","Asta","Noelle"], correct:1},
+    {q:"ما اسم قدرة Tanjiro النهائية؟", opts:["Hinokami Kagura","Rasengan","Bankai","Chidori"], correct:0},
+    {q:"من قاتل Madara؟", opts:["Naruto","Sasuke","Kakashi","Gai"], correct:0},
+    {q:"أقوى تقنية في Jujutsu Kaisen؟", opts:["Divergent Fist","Infinity","Cursed Technique","Domain Expansion"], correct:2},
+    {q:"من هو بطل Black Clover؟", opts:["Asta","Yuno","Yami","Noelle"], correct:0}
+  ],
+  "صعب":[
+    {q:"ما هو اسم Gojo بالإنجليزية مع الترجمة؟", opts:["Satoru Gojo (ساتورو جوجو)","Yuji Itadori","Megumi Fushiguro","Nobara"], correct:0},
+    {q:"ما اسم التقنية النهائية لإرين؟", opts:["Founding Titan (Titan المؤسس)","Attack Titan","Colossal Titan","Beast Titan"], correct:0},
+    {q:"أقوى شخصية في Solo Leveling؟", opts:["Sung Jin-Woo (سونغ جين وو)","Cha Hae-In","Igris","Tao"], correct:0},
+    {q:"من قاتل Muzan؟", opts:["Tanjiro (تانجيرو)","Zenitsu","Nezuko","Inosuke"], correct:0},
+    {q:"أقوى شخصية في Dragon Ball؟", opts:["Goku (غوكو)","Vegeta","Jiren","Beerus"], correct:0},
+    {q:"تقنية النهائية لناروتو؟", opts:["Rasengan (راسينغان)","Chidori","Kamehameha","Bankai"], correct:0},
+    {q:"أقوى شخصية في My Hero Academia؟", opts:["All Might (أول مايت)","Izuku Midoriya","Katsuki Bakugo","Shoto Todoroki"], correct:0},
+    {q:"من بطل Tokyo Ghoul؟", opts:["Ken Kaneki (كين كانيكي)","Touka","Haise","Hinami"], correct:0},
+    {q:"أقوى شخصية في Attack on Titan؟", opts:["Eren Yeager (إرين)","Levi","Mikasa","Armin"], correct:0},
+    {q:"من قاتل Madara؟", opts:["Naruto (ناروتو)","Sasuke","Kakashi","Gai"], correct:0}
+  ]
+};
+
+// ------------------------- وظائف الموقع النهائية -------------------------
+function startQuiz(level){
+  currentLevel=level;
+  current=0;
+  rawScore=0;
+  quizQuestions=(questionsData[currentAnime] && questionsData[currentAnime][currentLevel])?questionsData[currentAnime][currentLevel]:[];
+  document.getElementById('nextBtn').style.display='inline-block';
+  loadQuestion();
+}
+
+function loadQuestion(){
+  const q=quizQuestions[current];
+  if(!q){
+    document.getElementById('quiz').innerHTML="<p style='text-align:center;'>لا توجد أسئلة حالياً.</p>";
+    document.getElementById('nextBtn').style.display='none';
+    return;
+  }
+  document.getElementById('quiz').innerHTML=`<div class="question"><label>${current+1}. ${q.q}</label>
+  <select id="answer">${q.opts.map((opt,i)=>`<option value="${i}">${opt}</option>`).join('')}</select></div>`;
+  document.getElementById('progressBar').style.width=((current)/quizQuestions.length*100)+"%";
+  document.getElementById('nextBtn').innerText=current===quizQuestions.length-1?"إظهار النتيجة":"التالي";
+}
+
+function next(){
+  const q=quizQuestions[current];
+  if(q){
+    const ans=Number(document.getElementById("answer").value);
+    if(ans===q.correct) rawScore++;
+  }
+  current++;
+  if(current<quizQuestions.length) loadQuestion();
+  else showResult();
+}
+
+function showResult(){
+  const iq=Math.round((rawScore/quizQuestions.length)*140);
+  const result=document.getElementById('resultBox');
+  result.style.display="block";
+  result.innerHTML=`<div class="title">IQ: ${iq}</div>
+  <div class="title">درجة الاختبار: ${rawScore} من ${quizQuestions.length}</div>`;
+  document.getElementById('nextBtn').style.display='none';
+}
+
+                                              </script>
