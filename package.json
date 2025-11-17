@@ -1,0 +1,9 @@
+{
+  "name": "zayrox-anime",
+  "version": "1.0.0",
+  "scripts": {
+    "build": "echo 'No build needed'",
+    "dev": "echo 'Development'"
+  },
+  "dependencies": {}
+}
