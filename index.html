@@ -1,0 +1,118 @@
+<!DOCTYPE html><html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8" />
+<title>Zayro.test</title>
+<style>
+ body {
+   margin: 0;
+   font-family: sans-serif;
+   background: #111;
+   color: #fff;
+   display: flex;
+   justify-content: center;
+   padding: 20px;
+ }
+ .container {
+   max-width: 500px;
+   width: 100%;
+   background: #1a1a1a;
+   padding: 20px;
+   border-radius: 16px;
+   box-shadow: 0 0 20px rgba(0,0,0,0.4);
+ }
+ h1 {
+   text-align: center;
+   margin-bottom: 20px;
+   color: #4ec9ff;
+ }
+ button {
+   width: 100%;
+   padding: 12px;
+   border: none;
+   border-radius: 10px;
+   background: #4ec9ff;
+   color: #000;
+   font-size: 16px;
+   cursor: pointer;
+   margin-top: 15px;
+ }
+ .question { margin-bottom: 18px; }
+ label { display: block; margin-bottom: 6px; }
+ select { width: 100%; padding: 8px; border-radius: 8px; }
+ #resultBox {
+   background:#000;
+   padding:15px;
+   margin-top:20px;
+   border-radius:12px;
+   display:none;
+ }
+ .title {color:#4ec9ff; margin-bottom:8px;}
+</style>
+</head>
+<body>
+<div class="container">
+<h1>Zayro.test</h1>
+<div id="quiz"></div>
+<button onclick="finishTest()">إظهار النتيجة</button>
+<div id="resultBox"></div>
+</div><script>
+const questions = [
+  {q:"لما تحصل مشكلة قدامك، بتتصرف إزاي؟",opts:["بهدي وأفكر","أتوتر شوية","أتسرع","مش بعرف أركز"]},
+  {q:"لما حد يشرحلك حاجة جديدة، بتفهم من أول مرة؟",opts:["غالبًا آه","أحيانًا","حسب الحاجة","قليل جدًا"]},
+  {q:"لما حد يتنمر عليك، بتعرف ترد؟",opts:["آه على طول","أوقات","نادرًا","بخاف أزعل حد"]},
+  {q:"تركيزك عامل إزاي؟",opts:["عالي","متوسط","قليل","بيضيع بسرعة"]},
+  {q:"بتلاحظ التفاصيل؟ زي مثلًا تغير بسيط في صوت صاحبك؟",opts:["جداً","أحيانًا","نادرًا","لأ خالص"]},
+  {q:"لو اتمسكت في موقف محرج قدام ناس، بتتصرف إزاي؟",opts:["بهزر وعدّي","بتوتر","بسكت","ماعفش أتصرف"]},
+  {q:"بتعرف تقرا الناس من طريقة كلامهم؟",opts:["بنسبة كبيرة","متوسط","قليل","لأ"]},
+  {q:"لما حد ينادي عليك فجأة، بتستوعب بسرعة ولا بتاخد ثانية؟",opts:["بستوعب فورًا","نص بنص","باخد لحظة","بتلخبط الأول"]},
+  {q:"بتعرف تنظم وقتك؟",opts:["آه","شوية","قليل","لأ خالص"]},
+  {q:"بتتعصب بسرعة؟",opts:["نادرًا","أحيانًا","كتير","بسرعة جدًا"]},
+];
+
+let current = 0;
+let answers = [];
+
+function loadQuestion(){
+  const quiz = document.getElementById("quiz");
+  const q = questions[current];
+  quiz.innerHTML = `
+    <div class='question'>
+      <label>${current+1}- ${q.q}</label>
+      <select id='answer'>
+        ${q.opts.map((o,i)=>`<option value="${i+1}">${o}</option>`).join('')}
+      </select>
+    </div>
+  `;
+  document.querySelector('button').innerText = current === questions.length-1 ? "إظهار النتيجة" : "التالي";
+}
+loadQuestion();
+
+function finishTest(){
+  answers.push(Number(document.getElementById('answer').value));
+  if(current < questions.length-1){ current++; loadQuestion(); return; }
+
+  let total = answers.reduce((a,b)=>a+b,0);
+  let iq = Math.round((total / (questions.length*4)) * 140);
+  let ageIQ = Math.round((iq / 100) * 18);
+
+  let strength = [];
+  let weak = [];
+
+  if(iq > 110) strength.push("تفكير سريع"); else weak.push("محتاج تسرّع التحليل");
+  if(total > 22) strength.push("تركيز كويس"); else weak.push("التركيز محتاج يتحسن");
+  if(total > 26) strength.push("ذكاء اجتماعي حلو"); else weak.push("طور تعاملاتك شوية");
+
+  const result = document.getElementById("resultBox");
+  result.style.display = "block";
+  result.innerHTML = `
+    <div class='title'>IQ: ${iq}</div>
+    <div class='title'>الذكاء العمري: ${ageIQ} سنة</div>
+    <div class='title'>نقاط القوة:</div>
+    <ul>${strength.map(s=>`<li>${s}</li>`).join('')}</ul>
+    <div class='title'>نقاط الضعف:</div>
+    <ul>${weak.map(w=>`<li>${w}</li>`).join('')}</ul>
+  `;
+  document.querySelector('button').style.display='none';
+}
+</script></body>
+</html>
