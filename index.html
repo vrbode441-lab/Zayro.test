@@ -1,118 +1,200 @@
-<!DOCTYPE html><html lang="ar" dir="rtl">
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
 <head>
-<meta charset="UTF-8" />
-<title>Zayro.test</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>اختبار الذكاء IQ – Zayro.test</title>
 <style>
- body {
-   margin: 0;
-   font-family: sans-serif;
-   background: #111;
-   color: #fff;
-   display: flex;
-   justify-content: center;
-   padding: 20px;
- }
- .container {
-   max-width: 500px;
-   width: 100%;
-   background: #1a1a1a;
-   padding: 20px;
-   border-radius: 16px;
-   box-shadow: 0 0 20px rgba(0,0,0,0.4);
- }
- h1 {
-   text-align: center;
-   margin-bottom: 20px;
-   color: #4ec9ff;
- }
- button {
-   width: 100%;
-   padding: 12px;
-   border: none;
-   border-radius: 10px;
-   background: #4ec9ff;
-   color: #000;
-   font-size: 16px;
-   cursor: pointer;
-   margin-top: 15px;
- }
- .question { margin-bottom: 18px; }
- label { display: block; margin-bottom: 6px; }
- select { width: 100%; padding: 8px; border-radius: 8px; }
- #resultBox {
-   background:#000;
-   padding:15px;
-   margin-top:20px;
-   border-radius:12px;
-   display:none;
- }
- .title {color:#4ec9ff; margin-bottom:8px;}
+  body {
+    margin: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #111, #222);
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+  }
+  .container {
+    max-width: 650px;
+    width: 100%;
+    background: #1a1a1a;
+    padding: 30px 40px;
+    border-radius: 20px;
+    box-shadow: 0 0 25px rgba(0,0,0,0.6);
+    position: relative;
+  }
+  h1 {
+    text-align: center;
+    margin-bottom: 25px;
+    color: #4ec9ff;
+    font-size: 32px;
+  }
+  .intro {
+    text-align: center;
+    font-size: 18px;
+    margin-bottom: 25px;
+    line-height: 1.5;
+  }
+  .btn {
+    width: 100%;
+    padding: 14px;
+    border: none;
+    border-radius: 12px;
+    background: #4ec9ff;
+    color: #000;
+    font-size: 18px;
+    cursor: pointer;
+    margin-top: 20px;
+    transition: 0.3s;
+  }
+  .btn:hover {
+    background: #3bb0e0;
+  }
+  .question {
+    margin-bottom: 24px;
+  }
+  label {
+    display: block;
+    margin-bottom: 12px;
+    font-size: 20px;
+  }
+  select, input[type="radio"] {
+    margin-right: 8px;
+    font-size: 18px;
+    padding: 8px;
+    border-radius: 8px;
+  }
+  #resultBox {
+    background: #000;
+    padding: 25px;
+    margin-top: 30px;
+    border-radius: 16px;
+    display: none;
+    font-size: 16px;
+  }
+  .title { color: #4ec9ff; margin-bottom: 10px; font-size: 20px; }
+  .progress {
+    height: 12px;
+    background: #333;
+    border-radius: 8px;
+    margin-bottom: 25px;
+    overflow: hidden;
+  }
+  .progress-bar {
+    height: 100%;
+    width: 0%;
+    background: #4ec9ff;
+    transition: 0.5s;
+  }
+  .watermark {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    font-size: 12px;
+    color: rgba(255,255,255,0.3);
+    user-select: none;
+  }
+  @media(max-width: 480px){
+    .container {
+      padding: 20px;
+    }
+    h1 { font-size: 26px; }
+    label { font-size: 18px; }
+    .btn { font-size: 16px; }
+  }
 </style>
 </head>
 <body>
 <div class="container">
-<h1>Zayro.test</h1>
-<div id="quiz"></div>
-<button onclick="finishTest()">إظهار النتيجة</button>
-<div id="resultBox"></div>
-</div><script>
+  <h1>اختبار الذكاء IQ</h1>
+  <div class="intro">
+    مرحبًا! اختبر ذكاءك بطريقة ممتعة وسريعة. سيقيس هذا الاختبار قدراتك المنطقية، البصرية، والحسابية في 10 أسئلة فقط. حاول الإجابة بأفضل ما لديك!
+  </div>
+  <div id="quiz"></div>
+  <div class="progress"><div class="progress-bar" id="progressBar"></div></div>
+  <button class="btn" id="nextBtn" onclick="next()">ابدأ الاختبار</button>
+  <div id="resultBox"></div>
+  <div class="watermark">المطور: عبدالرحمن أنور</div>
+</div>
+
+<script>
 const questions = [
-  {q:"لما تحصل مشكلة قدامك، بتتصرف إزاي؟",opts:["بهدي وأفكر","أتوتر شوية","أتسرع","مش بعرف أركز"]},
-  {q:"لما حد يشرحلك حاجة جديدة، بتفهم من أول مرة؟",opts:["غالبًا آه","أحيانًا","حسب الحاجة","قليل جدًا"]},
-  {q:"لما حد يتنمر عليك، بتعرف ترد؟",opts:["آه على طول","أوقات","نادرًا","بخاف أزعل حد"]},
-  {q:"تركيزك عامل إزاي؟",opts:["عالي","متوسط","قليل","بيضيع بسرعة"]},
-  {q:"بتلاحظ التفاصيل؟ زي مثلًا تغير بسيط في صوت صاحبك؟",opts:["جداً","أحيانًا","نادرًا","لأ خالص"]},
-  {q:"لو اتمسكت في موقف محرج قدام ناس، بتتصرف إزاي؟",opts:["بهزر وعدّي","بتوتر","بسكت","ماعفش أتصرف"]},
-  {q:"بتعرف تقرا الناس من طريقة كلامهم؟",opts:["بنسبة كبيرة","متوسط","قليل","لأ"]},
-  {q:"لما حد ينادي عليك فجأة، بتستوعب بسرعة ولا بتاخد ثانية؟",opts:["بستوعب فورًا","نص بنص","باخد لحظة","بتلخبط الأول"]},
-  {q:"بتعرف تنظم وقتك؟",opts:["آه","شوية","قليل","لأ خالص"]},
-  {q:"بتتعصب بسرعة؟",opts:["نادرًا","أحيانًا","كتير","بسرعة جدًا"]},
+  {q:"أكمل التسلسل: 2, 4, 8, 16, ___ ؟", opts:["18","20","32","24"], correctIndex:2, difficulty:3, timeLimit:30},
+  {q:"أي الرقم لا ينتمي للمجموعة؟ 2, 4, 8, 9, 16", opts:["4","9","16","8"], correctIndex:1, difficulty:2, timeLimit:25},
+  {q:"5, 8, 11, ___ ؟", opts:["14","13","12","15"], correctIndex:1, difficulty:2, timeLimit:20},
+  {q:"الكلمة التي لا تنتمي: كتاب، دفتر، قلم، كرسي", opts:["كتاب","قلم","كرسي","دفتر"], correctIndex:2, difficulty:2, timeLimit:20},
+  {q:"أي الرقم أكبر: 53 × 2 أم 101؟", opts:["106","101","103","102"], correctIndex:0, difficulty:2, timeLimit:15},
+  {q:"1, 1, 2, 3, 5, ___ ؟", opts:["6","7","8","9"], correctIndex:2, difficulty:2, timeLimit:20},
+  {q:"إذا كانت كل التفاحات فواكه وكل الفواكه صالحة للأكل، فالتفاح؟", opts:["صالح للأكل","ليس فاكهة","أحمر فقط","لا يمكن تحديده"], correctIndex:0, difficulty:2, timeLimit:25},
+  {q:"أي الشكل يكمل النمط؟", opts:["شكل أ","شكل ب","شكل ج","شكل د"], correctIndex:2, difficulty:3, timeLimit:35},
+  {q:"7 × 8 = ؟", opts:["48","54","56","64"], correctIndex:2, difficulty:2, timeLimit:15},
+  {q:"لديك سلسلة أرقام: 10, 20, 40, ___ ؟", opts:["50","60","80","70"], correctIndex:2, difficulty:3, timeLimit:25}
 ];
 
-let current = 0;
-let answers = [];
+let current = -1;
+let rawScore = 0;
+let startTime = null;
 
 function loadQuestion(){
-  const quiz = document.getElementById("quiz");
+  if(current<0) {document.getElementById("nextBtn").innerText="التالي";}
   const q = questions[current];
+  startTime = Date.now();
+  const quiz = document.getElementById("quiz");
   quiz.innerHTML = `
-    <div class='question'>
-      <label>${current+1}- ${q.q}</label>
-      <select id='answer'>
-        ${q.opts.map((o,i)=>`<option value="${i+1}">${o}</option>`).join('')}
+    <div class="question">
+      <label>${current+1}. ${q.q}</label>
+      <select id="answer">
+        ${q.opts.map((opt,i)=>`<option value="${i}">${opt}</option>`).join('')}
       </select>
     </div>
   `;
-  document.querySelector('button').innerText = current === questions.length-1 ? "إظهار النتيجة" : "التالي";
+  document.getElementById("progressBar").style.width = ((current+1)/questions.length*100)+"%";
 }
-loadQuestion();
 
-function finishTest(){
-  answers.push(Number(document.getElementById('answer').value));
-  if(current < questions.length-1){ current++; loadQuestion(); return; }
+function next(){
+  if(current>=0){
+    const ans = Number(document.getElementById("answer").value);
+    const elapsed = (Date.now() - startTime)/1000;
+    const q = questions[current];
+    if(ans===q.correctIndex){
+      let score = q.difficulty;
+      if(elapsed < q.timeLimit){
+        score += (q.timeLimit - elapsed)/q.timeLimit * q.difficulty;
+      }
+      rawScore += score;
+    }
+  }
+  current++;
+  if(current<questions.length){
+    loadQuestion();
+  } else {
+    showResult();
+  }
+}
 
-  let total = answers.reduce((a,b)=>a+b,0);
-  let iq = Math.round((total / (questions.length*4)) * 140);
-  let ageIQ = Math.round((iq / 100) * 18);
-
-  let strength = [];
-  let weak = [];
-
-  if(iq > 110) strength.push("تفكير سريع"); else weak.push("محتاج تسرّع التحليل");
-  if(total > 22) strength.push("تركيز كويس"); else weak.push("التركيز محتاج يتحسن");
-  if(total > 26) strength.push("ذكاء اجتماعي حلو"); else weak.push("طور تعاملاتك شوية");
+function showResult(){
+  const mu = questions.length*2.2; // متوسط تقريبي
+  const sigma = questions.length*0.9; // انحراف معياري
+  const z = (rawScore - mu)/sigma;
+  const iq = Math.round(z*15 + 100);
 
   const result = document.getElementById("resultBox");
-  result.style.display = "block";
+  result.style.display="block";
   result.innerHTML = `
-    <div class='title'>IQ: ${iq}</div>
-    <div class='title'>الذكاء العمري: ${ageIQ} سنة</div>
-    <div class='title'>نقاط القوة:</div>
-    <ul>${strength.map(s=>`<li>${s}</li>`).join('')}</ul>
-    <div class='title'>نقاط الضعف:</div>
-    <ul>${weak.map(w=>`<li>${w}</li>`).join('')}</ul>
+    <div class="title">IQ: ${iq}</div>
+    <div class="title">الدرجة الخام: ${rawScore.toFixed(2)}</div>
+    <div class="title">تحليل سريع:</div>
+    <ul>
+      <li>إذا كانت النتيجة >120: ذكاء فوق المتوسط</li>
+      <li>90-120: ذكاء متوسط</li>
+      <li><90: يحتاج تطوير بعض المهارات</li>
+    </ul>
   `;
-  document.querySelector('button').style.display='none';
+  document.getElementById("nextBtn").style.display="none";
 }
-</script></body>
+
+current=0;
+loadQuestion();
+</script>
+</body>
 </html>
